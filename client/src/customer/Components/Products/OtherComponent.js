@@ -13,7 +13,7 @@ const OtherComponent = ({ advertisements, status }) => {
             .filter(advertisement => advertisement.section === "Section 2")
             .map((advertisement, index) => (
               <Link to={`/product/${advertisement.product._id}`} key={index}>
-                <div className="bg-white border rounded-lg shadow-lg flex-none w-60 sm:w-72 md:w-80">
+                <div className="bg-white border rounded-lg shadow-lg flex-none w-60 sm:w-72 md:w-80 h-80 sm:h-72 md:h-80">
                   <img
                     src={advertisement.imageUrl}
                     alt={advertisement.title}

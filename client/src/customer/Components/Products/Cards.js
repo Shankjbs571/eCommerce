@@ -4,6 +4,16 @@ import { useNavigate, Link } from 'react-router-dom';
 import { addToCart } from '../../../Redux/Cart/cartSlice';
 
 
+
+
+const truncateText = (text, wordLimit) => {
+  const words = text.split(' ');
+  if (words.length > wordLimit) {
+    return `${words.slice(0, wordLimit).join(' ')}...`;
+  }
+  return text;
+};
+
 const productCardClasses = "bg-white flex-col flex rounded-lg p-1 lg:p-4 mb-3 mt-5 lg:mx-4 border h-fit border-gray-500 lg:w-60 h-fit transition-transform duration-300 hover:scale-105";
 const imageClasses = "w-full object-contain mb-2 h-28";
 const buttonClass = (enabled) =>
@@ -35,7 +45,7 @@ const ProductCard = ({ product }) => {
     <div key={product._id} className={`p-2 sm:p-4 rounded-lg bg-gray-100 hover:bg-orange-100 shadow-lg transition ease-in`}>
       <Link to={`/product/${product._id}`}>
         <img src={product.imageUrl} alt={product.title} className={imageClasses} />
-        <h3 className="text-sm sm:text-lg font-semibold">{product.title}</h3>
+        <h3 className="text-sm sm:text-lg font-semibold">{truncateText(product.title, 2)}</h3>
       </Link>
       <div className="text-base sm:text-xl font-bold text-green-600">₹{product.discountedPrice}</div>
       <div className="text-xs sm:text-sm text-gray-500 line-through">₹ {product.price}</div>
