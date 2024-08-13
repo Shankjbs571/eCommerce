@@ -177,10 +177,11 @@ function ProductDetails() {
               </span>
               <span className="stock-status font-bold">In Stock</span>
             </div>
-          <div className="product-pricing">
+          <div className="product-pricing flex gap-2">
             <span className="discounted-price">
               ₹{productDetails?.discountedPrice}
             </span>
+
             <span className="original-price">
               ₹{productDetails?.price}
             </span>

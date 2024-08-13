@@ -34,11 +34,11 @@ const ProductCard = ({ product }) => {
   return (
     <div key={product._id} className={`p-2 sm:p-4 rounded-lg bg-gray-100 hover:bg-orange-100 shadow-lg transition ease-in`}>
       <Link to={`/product/${product._id}`}>
-        <img src="https://www.kcnpnm.org/global_graphics/default-store-350x350.jpg" alt={product.title} className={imageClasses} />
+        <img src={product.imageUrl} alt={product.title} className={imageClasses} />
         <h3 className="text-sm sm:text-lg font-semibold">{product.title}</h3>
       </Link>
-      <div className="text-base sm:text-xl font-bold text-green-600">{product.discountedPrice}</div>
-      <div className="text-xs sm:text-sm text-gray-500 line-through">{product.price}</div>
+      <div className="text-base sm:text-xl font-bold text-green-600">₹{product.discountedPrice}</div>
+      <div className="text-xs sm:text-sm text-gray-500 line-through">₹ {product.price}</div>
       <div className="text-xs sm:text-sm text-zinc-500 mb-1 sm:mb2">
         {product.quantity > 0 ? 'Available' : 'Not Available'}
       </div>
