@@ -249,7 +249,7 @@ const Advertisements = () => {
                         /> : <h2 className="text-lg font-bold mb-4">Best Gadgets</h2>
                         }
                         <button className="flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">
-                            <PencilIcon className="h-5 w-5 mr-2" />
+                            {/* <PencilIcon className="h-5 w-5 mr-2" /> */}
                             Edit
                         </button>
                     </div>
