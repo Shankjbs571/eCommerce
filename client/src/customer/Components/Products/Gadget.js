@@ -19,7 +19,7 @@ const Gadgets = ({ advertisements, status }) => {
       <div className="relative">
         <div className="flex  overflow-x-auto space-x-4 pb-4">
           {advertisements.filter(advertisement => advertisement.section === "Section 1").slice(0, 4).map((advertisement, index) => (
-            <Link to={`/product/${advertisement.product._id}`} key={index} className="flex-shrink-0">
+            // <Link to={`/product/${advertisement.product?._id}`} key={index} className="flex-shrink-0">
               <div className="bg-white h-full border rounded-lg shadow-lg overflow-hidden w-64">
                 <img
                   src={advertisement.imageUrl}
@@ -31,10 +31,10 @@ const Gadgets = ({ advertisements, status }) => {
                   <p className="text-green-600 text-xs sm:text-sm">{advertisement.description}</p>
                 </div>
               </div>
-            </Link>
+            // </Link>
           ))}
           {advertisements.filter(advertisement => advertisement.section === "Section 1").slice(0, 4).map((advertisement, index) => (
-            <Link to={`/product/${advertisement.product._id}`} key={index} className="flex-shrink-0">
+            // <Link to={`/product/${advertisement.product._id}`} key={index} className="flex-shrink-0">
               <div className="bg-white h-full border rounded-lg shadow-lg overflow-hidden w-64">
                 <img
                   src={advertisement.imageUrl}
@@ -46,7 +46,7 @@ const Gadgets = ({ advertisements, status }) => {
                   <p className="text-green-600 text-xs sm:text-sm">{advertisement.description}</p>
                 </div>
               </div>
-            </Link>
+            // </Link>
           ))}
         </div>
         <div className="text-center mt-4">

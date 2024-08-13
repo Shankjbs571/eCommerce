@@ -11,7 +11,7 @@ const Gadgets = ({ advertisements, status }) => {
           .filter((advertisement) => advertisement.section === "Section 4")
           .slice(0, 3)
           .map((advertisement, index) => (
-            <Link key={index} to={`/product/${advertisement.product._id}`}>
+            <Link key={index} to={`/product/${advertisement.product?._id}`}>
               <div className="relative bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
                 <div className="overflow-hidden">
                   <img
