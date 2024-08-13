@@ -60,6 +60,10 @@ const Advertisements = () => {
     const [savedAdvertisements, setSavedAdvertisements] = useState([{"image":null}]);
     // const [publishedAdvertisements, setPublishedAdvertisements] = useState([]);
 
+    const [sectionTitle, setsectionTitle] = useState('');
+    const [editTitle, seteditTitle] = useState(false);
+
+
 
     useEffect(() => {
         dispatch(fetchProducts());
@@ -114,6 +118,7 @@ const Advertisements = () => {
     // console.log("filtereddd :", filteredProducts);
 
     const handleProductSelect = (product) => {
+        console.log("product selected: ", product);
         setSelectedProduct({
             product: product._id,
             title: product.title,
@@ -216,7 +221,7 @@ const Advertisements = () => {
         <div className="mx-auto mt-16 w-fit">
             <ToastContainer />
 
-            <div className="grid grid-cols-5 gap-12">
+            <div className="flex flex-wrap gap-4">
                 {SectionTabs.map((SectionTab) => (
                     <CardComponent
                         key={SectionTab.id}
@@ -229,8 +234,25 @@ const Advertisements = () => {
             </div>
             { activeTab !== "Section 0" ? (
 
+            
+
             <div className="mt-8 grid grid-cols-2 gap-20">
                 <div>
+                    <div className='mb-2'>
+                        <h2 className="text-lg font-bold mb-4">Section Title</h2>
+                        { editTitle ? <input
+                            type="text"
+                            className="w-full p-2 border rounded-md"
+                            placeholder="Enter Title Name..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        /> : <h2 className="text-lg font-bold mb-4">Best Gadgets</h2>
+                        }
+                        <button className="flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">
+                            <PencilIcon className="h-5 w-5 mr-2" />
+                            Edit
+                        </button>
+                    </div>
                     <h2 className="text-lg font-semibold mb-4">Saved Ads</h2>
                     
                     {savedAdvertisements.length > 0 ? (

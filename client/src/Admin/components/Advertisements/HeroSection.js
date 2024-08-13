@@ -26,6 +26,11 @@ export default function HeroSection({advertisements, status, filteredProducts, s
         setImagePreview(URL.createObjectURL(file));
     };
 
+    const handleheroChange = (e) => {
+        const { name, value } = e.target;
+        setForm((prevForm) => ({ ...prevForm, [name]: value }));
+    };
+
 
 
     const handleupload = (e) => {
@@ -34,13 +39,19 @@ export default function HeroSection({advertisements, status, filteredProducts, s
         for (const key in form) {
           formData.append(key, form[key]);
         }
+        console.log("herosection formdata: ",formData);
+        for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
         dispatch(createAdvertisement(formData)).then((response) => {
             if (response.error) {
               toast.error('Failed to create Advertisement');
+              setIsModalOpen(false);
             } else {
               toast.success('Advertisement created successfully');
               dispatch(fetchAdvertisements());
               setImagePreview(null);
+              setIsModalOpen(false);
             }
           });
 
@@ -95,16 +106,16 @@ export default function HeroSection({advertisements, status, filteredProducts, s
 
 
     return (
-        <div className='m-10 w-auto grid grid-cols-2 gap-20'>
+        <div className='m-10 ml-0 mr-0 w-auto grid grid-cols-2 flex flex-row  gap-20'>
 
-            <div className='grid grid-cols-2 scroll-smooth'>
+            <div className=' flex flex-wrap scroll-smooth'>
             
             {status === "succeeded" && (
                 advertisements.length > 0 ? (
                     advertisements
                         .filter(publishedAdvertisement => publishedAdvertisement.section === activeTab)
                         .map((publishedAdvertisement,index) => (
-                            <div class="w-4/5 mb-4 ml-5 bg-white border border-gray-200 rounded-lg shadow" key={publishedAdvertisement.id}>
+                            <div class="w-80 m-5 ml-0 bg-white border border-gray-200 rounded-lg shadow" key={publishedAdvertisement.id}>
                                 <a href="#">
                                     <img class="rounded-t-lg" src={publishedAdvertisement.imageUrl} alt="" />
                                 </a>
@@ -175,7 +186,7 @@ export default function HeroSection({advertisements, status, filteredProducts, s
                 Publish
             </button>
         </div> */}
-        <div>
+        <div className='flex flex-col justify-center'>
                     <h2 className="text-lg font-semibold mb-4">Search Product for Advertisement</h2>
                     <input
                         type="text"
@@ -219,8 +230,8 @@ export default function HeroSection({advertisements, status, filteredProducts, s
                                         </button>
                                         <SelectedProduct
                                             selectedProduct={selectedProduct}
-                                            handleChange={handleChange}
-                                            handleSave={handleSave}
+                                            handleChange={handleheroChange}
+                                            handleSave={handleupload}
                                             handlePublish={handlePublish}
                                             handlemodalclose = {handlemodalclose}
                                             handleFileChange = {handleFileChange}

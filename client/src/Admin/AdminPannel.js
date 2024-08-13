@@ -87,7 +87,7 @@ function AdminPanel() {
 
   return (
     <section className="flex w-screen">
-      <div className="bg-[#eff4f8] w-full">
+      <div className="bg-[#eff4f8] w-full h-screen">
         <Navbar toggleSidebar={toggleSidebar} />
         <div className="flex h-full">
           {isSidebarOpen && (

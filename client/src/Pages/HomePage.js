@@ -190,21 +190,10 @@ function HomePage() {
     {
       id: 1,
       href: "./product/2",
-      src: "https://cdn.shopify.com/s/files/1/0070/7032/files/ecommerce_20grocery_20companies.png?v=1706715954",
+      src: "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=2700/layout-engine/2022-05/Group-33704.jpg",
       alt: "Chocolates",
     },
-    {
-      id: 2,
-      href: "./product/1",
-      src: "./dailyneeds.jpg",
-      alt: "Daily Needs",
-    },
-    {
-      id: 3,
-      href: "./product/3",
-      src: "./snacks.jpg",
-      alt: "Snacks",
-    },
+    
   ];
   
 
@@ -241,38 +230,39 @@ function HomePage() {
   <>
       <Navbar />
     <div className="flex flex-col overflow-hidden bg-white">
-      <div className="w-full overflow-hidden p-12 rounded-md">
+      <div className="w-full flex justify-center items-center">
+        <div className="w-7/8 overflow-hidden m-2 p-12 rounded-md">
         <Slider {...settings} className="rounded-md">
-          {adsstatus === "succeeded" && (
-            advertisements.length > 100 ? (
-              advertisements
-              .filter(publishedAdvertisement => publishedAdvertisement.section === "Section 0")
-                .map(publishedAdvertisement => (
-                  // <Link to={`/product/${prodID}`}>
-                  <div className="w-full rounded-md" key={publishedAdvertisement.id}>
-                    {/* <a href="./product/${advertisement.product._id}" className="rounded-md"> */}
-                    <div className="flex items-center justify-center bg-opacity-50 rounded-md h-1/2 w-full">
-                      <img
+        {adsstatus === "succeeded" && (
+          (() => {
+            // Filter the advertisements by section
+            const filteredAdvertisements = advertisements.filter(
+              (publishedAdvertisement) => publishedAdvertisement.section === "Section 0"
+            );
 
-                        src={publishedAdvertisement.imageUrl}
-                        className="object-cover h-[20vh] lg:h-[45vh] w-full rounded-md"
-                        alt="Skin Care"
-                      />
-                    </div>
-                    {/* </Link> */}
+            // Check if the filtered array length is greater than 0
+            if (filteredAdvertisements.length > 0) {
+              return filteredAdvertisements.map((publishedAdvertisement) => (
+                <div className="w-full p-4 rounded-md" key={publishedAdvertisement.id}>
+                  <div className="flex items-center justify-center bg-opacity-50 rounded-md h-1/2 w-full">
+                    <img
+                      src={publishedAdvertisement.imageUrl}
+                      className="object-fill h-[20vh] lg:h-[45vh] w-full rounded-md"
+                      alt="Banner"
+                    />
                   </div>
-                  // </Link>
-                ))
-            ) : (
-
-              items.map((item) => (
+                </div>
+              ));
+            } else {
+              // Render something else if no advertisements are found for Section 0
+              return items.map((item) => (
                 <div className="w-full p-4 rounded-md" key={item.id}>
                     {/* <a href="./product/${advertisement.product._id}" className="rounded-md"> */}
                     <div className="flex items-center justify-center bg-opacity-50 rounded-md w-full">
                       <img
 
                         src={item.src}
-                        className="object-cover h-[20vh] lg:h-[45vh] w-full rounded-md"
+                        className="object-fill h-[20vh] lg:h-[45vh] w-full rounded-md"
                         alt="Skin Care"
                       />
                     </div>
@@ -290,9 +280,12 @@ function HomePage() {
                 //   </a>
                 // </div>
               ))
-            )
-          )}
+            }
+          })()
+        )}
+          
         </Slider>
+      </div>
       </div>
 
 
