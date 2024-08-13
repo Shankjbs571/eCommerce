@@ -106,7 +106,7 @@ export default function HeroSection({advertisements, status, filteredProducts, s
 
 
     return (
-        <div className='m-10 ml-0 mr-0 w-auto grid grid-cols-2 flex flex-row  gap-20'>
+        <div className='m-10 ml-0 mr-0 w-auto grid grid-cols-2  flex-row  gap-20'>
 
             <div className=' flex flex-wrap scroll-smooth'>
             

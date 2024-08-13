@@ -17,6 +17,7 @@ import FAQ from '../customer/Components/FAQ/Faq.js';
 import ContactUs from '../customer/Components/ContactUs/ContactUs.js';
 import Privacy from '../Pages/Privacy.js';
 import TermsOfUse from '../Pages/TermsCondition.js';
+import Forbidden from './Forbidden.js';
 
 
 
@@ -32,6 +33,7 @@ function CustomersRoute() {
       <Route path="/category" element={<Category />} />
       <Route path="product/:id" element={<ProductDetails />}></Route>
        <Route path="/login" element={<Login />}></Route>
+       <Route path="/forbidden" element={<Forbidden />}></Route>
       <Route path="/checkout" element={< Checkout/>}></Route>
       <Route path="/myprofile" element={<Profile/>}></Route>
       <Route path="/review/:id" element={<RatingsAndReviews/>}></Route>

@@ -5,6 +5,8 @@ import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
 import { fetchUserById, signoutUser, updateUser } from '../../Redux/User/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { LuLogOut } from "react-icons/lu";
+import logoImage from '../../Profile/components/Orders/paymentlogo.png';
+import { placeOrder } from '../../Redux/Order/orderSlice';
 
 const darkModeToggle = () => {
   document.documentElement.classList.toggle('dark');
@@ -17,6 +19,11 @@ const Navbar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
 
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   // Decode userId from authToken and fetch user details
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -24,15 +31,21 @@ const Navbar = ({ toggleSidebar }) => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        const userId = decodedToken.id; // Adjust this if your token structure is different
-        dispatch(fetchUserById(userId));
+        const userId = decodedToken.id;
+        const userRole = decodedToken.role;
+
+        if (userRole !== 'ADMIN') {
+          navigate('/forbidden'); // Redirect to Forbidden page if the user is not an ADMIN
+        } else {
+          dispatch(fetchUserById(userId)); // Fetch user data if the role is ADMIN
+        }
       } catch (error) {
         console.error('Invalid token:', error);
         localStorage.removeItem('authToken'); // Optionally, clear the invalid token
-        // navigate('/login'); // Redirect to login page if token is invalid
+        navigate('/login'); // Redirect to login page if token is invalid
       }
     } else {
-      // navigate('/login'); // Redirect to login page if no token is found
+      navigate('/login'); // Redirect to login page if no token is found
     }
   }, [dispatch, navigate]);
 
@@ -75,6 +88,22 @@ const Navbar = ({ toggleSidebar }) => {
         >
           <FaBars />
         </button>
+        
+        <div
+      className="flex items-center cursor-pointer"
+      onClick={handleLogoClick}
+    >
+      <img
+        src={logoImage}
+        alt="Logo"
+        className="h-10 w-10" // Adjust the size as needed
+        crossOrigin="anonymous"
+      />
+      <p className="font-bold text-orange-600 lg:text-2xl text-lg ml-2">
+        ADMIN<span className="text-gray-600">PANNEL</span>
+      </p>
+    </div>
+
         <div className="flex items-center bg-white rounded-md border border-gray-500 hover:border-green-500 shadow-sm max-w-xs w-full">
           <input
             type="text"

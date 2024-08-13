@@ -151,7 +151,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       <div className="mt-4 p-2">
         <p className="text-zinc-600">Frequently Visited:</p>
         <ul className="ml-4">
-          <li className="hover:text-blue-500"><Link to="/myprofile/track-order">Track Order</Link></li>
+          <li className="hover:text-green-500"><Link to="/myprofile/track-order">Track Order</Link></li>
           <li className="hover:text-blue-500"><Link to="/myprofile/help-center">Help Center</Link></li>
         </ul>
       </div>

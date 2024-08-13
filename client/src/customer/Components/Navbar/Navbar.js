@@ -419,10 +419,14 @@
     useEffect(() => {
       const fetchCartData = async () => {
         const action = await dispatch(fetchCart());
-        
-        if (fetchCart.rejected.match(action) && action.payload === 'Forbidden') {
-          dispatch(signoutUser()); // Sign out the user
-          navigate('/login'); // Redirect to login page
+  
+        if (fetchCart.rejected.match(action)) {
+          if (action.payload === 'Forbidden') {
+            dispatch(signoutUser()); // Sign out the user
+            navigate('/login'); // Redirect to login page
+          } else if (action.error?.message === '404') {
+            alert('Cart is empty');
+          }
         }
       };
   
@@ -522,7 +526,11 @@
       };
     }, []);
   
-  
+    
+    const handleLogoClick = () => {
+      navigate('/');
+    };
+    
     function CategoryButton({ category, isActive,icon }) {
       return (
               // <button
@@ -933,10 +941,12 @@
     
       <>
       <header className="sticky top-0 left-0 right-0 flex flex-wrap justify-between items-center pt-2 w-full bg-orange-600 max-md:px-5 z-50 max-md:max-w-full">
-        <div className={apalbajarlogoclasses} >
-          {/* <img src={logo} alt="Logo" className="h-10" crossOrigin="anonymous"/> */}
-          <p className="font-bold text-white lg:text-2xl text-lg">Apala<span className="text-gray-600">Bajar</span></p>
-        </div>
+      <div className={apalbajarlogoclasses} onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
+      {/* <img src={logo} alt="Logo" className="h-10" crossOrigin="anonymous"/> */}
+      <p className="font-bold text-white lg:text-2xl text-lg">
+        Apala<span className="text-gray-600">Bajar</span>
+      </p>
+    </div>
         { viewport ? null : ( <div className="flex flex-wrap gap-3.5 px-8 w-fit max-md:max-w-full">
             <SearchBar />
             {/* <IconGroup /> */}
