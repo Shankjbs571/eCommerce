@@ -16,7 +16,7 @@ const Gadgets = ({ advertisements, status }) => {
               className={`w-full md:w-${index === 0 ? '1/2' : '1/2'} lg:w-${index === 0 ? '1/3' : '2/3'} p-4`}
             >
               <div className="bg-white border rounded-lg shadow-lg overflow-hidden transform hover:shadow-xl transition-shadow duration-300">
-                <Link to={`/product/${advertisement.product._id}`}>
+                <Link to={`/product/${advertisement.product?._id}`}>
                   <div className="relative">
                     <img
                       src={advertisement.imageUrl}
@@ -32,7 +32,7 @@ const Gadgets = ({ advertisements, status }) => {
                   <h3 className="text-xl font-semibold mb-2">{advertisement.title}</h3>
                   <p className="text-green-600 text-sm mb-4">{advertisement.description}</p>
                   <Link
-                    to={`/product/${advertisement.product._id}`}
+                    to={`/product/${advertisement.product?._id}`}
                     className="inline-block px-6 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors duration-300"
                   >
                     Shop Now
