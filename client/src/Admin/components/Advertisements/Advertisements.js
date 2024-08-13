@@ -222,7 +222,7 @@ const Advertisements = () => {
         <div className="mx-auto bg-[#eff4f8]  pt-16 w-fit">
             <ToastContainer />
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex pl-3 pr-3 flex-wrap gap-4">
                 {SectionTabs.map((SectionTab) => (
                     <CardComponent
                         key={SectionTab.id}
