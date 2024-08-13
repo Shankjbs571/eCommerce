@@ -61,8 +61,8 @@ const ProductCards = ({ categoryId, excludeProductId }) => {
             </div>
             <h3 className="text-sm sm:text-base md:text-lg font-semibold text-center md:text-left">{product.title}</h3>
           </Link>
-          <div className="text-base sm:text-lg md:text-xl font-bold text-green-600 text-center md:text-left">{product.discountedPrice}</div>
-          <div className="text-sm sm:text-base md:text-base text-gray-500 line-through text-center md:text-left">{product.price}</div>
+          <div className="text-base sm:text-lg md:text-xl font-bold text-green-600 text-center md:text-left">₹{product.discountedPrice}</div>
+          <div className="text-sm sm:text-base md:text-base text-gray-500 line-through text-center md:text-left">₹{product.price}</div>
           <button onClick={handleAddToCart} className="mt-2 text-green-600 w-full md:w-auto text-center">Add To Cart</button>
         </div>
       ))}

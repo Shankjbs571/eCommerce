@@ -51,11 +51,27 @@ export const importProducts = async (req, res) => {
       let barcode = productData.BarCode || productData.Barcode;
       console.log(productData.BarCode, 'new product');
 console.log(productData.Barcode, 'GST pad product');
+       count++;
       if (barcode && barcode !== 0) {
         const existingProduct = await Product.findOne({ BarCode: barcode });
         const name = await Product.findOne({ title: productData.NAME });
         const existingSlug = await Product.findOne({ slug: productData.NAME });
         if (existingProduct || name || existingSlug) {  
+            if(name)
+            {
+              name.BarCode = barcode-count;
+              await name.save();
+            }  
+            if(existingProduct)
+              {
+                existingProduct.BarCode = barcode-count;
+                await existingProduct.save();
+              }  
+              if(existingSlug)
+                {
+                  existingSlug.BarCode = barcode-count;
+                  await existingSlug.save();
+                }  
           skippedProducts.push(productData);
           continue;
         }
