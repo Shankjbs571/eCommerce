@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const Gadgets = ({ advertisements, status }) => {
   return (
     <div className="container mx-auto px-4 py-6">
-      <div className="flex flex-row flex-wrap -mx-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {advertisements
           .filter((advertisement) => advertisement.section === "Section 3")
           .slice(0, 2)

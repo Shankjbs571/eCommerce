@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
+
 export default function HeroSection({advertisements, status, filteredProducts, searchstatus,handleSave,handlePublish,handlemodalclose,searchTerm,setSearchTerm,activeTab,handleChange,selectedProduct,SelectedProduct, isModalOpen,setIsModalOpen, handleDeleteAdvertisement, handleProductSelect}){
 
     const [imagePreview, setImagePreview] = useState(null);
@@ -106,16 +107,17 @@ export default function HeroSection({advertisements, status, filteredProducts, s
 
 
     return (
-        <div className='m-10 ml-0 mr-0 w-auto grid grid-cols-2 flex flex-row  gap-20'>
+        <div className='m-10 mt-8 ml-0 mr-0 w-auto  md:grid max-md:flex max-md:flex-col max-md:flex-col-reverse md:grid-cols-2 gap-20'>
 
-            <div className=' flex flex-wrap scroll-smooth'>
+            <div className=' flex flex-col scroll-smooth'>
             
             {status === "succeeded" && (
                 advertisements.length > 0 ? (
                     advertisements
                         .filter(publishedAdvertisement => publishedAdvertisement.section === activeTab)
                         .map((publishedAdvertisement,index) => (
-                            <div class="w-80 m-5 ml-0 bg-white border border-gray-200 rounded-lg shadow" key={publishedAdvertisement.id}>
+                            <div className="flex justify-center mb-4" >
+                            <div class="w-80  bg-white border border-gray-200 rounded-lg shadow" key={publishedAdvertisement.id}>
                                 <a href="#">
                                     <img class="rounded-t-lg" src={publishedAdvertisement.imageUrl} alt="" />
                                 </a>
@@ -125,6 +127,7 @@ export default function HeroSection({advertisements, status, filteredProducts, s
                                         Delete
                                     </div>
                                 </div>
+                            </div>
                             </div>
                         ))
                 ) : (
@@ -186,7 +189,7 @@ export default function HeroSection({advertisements, status, filteredProducts, s
                 Publish
             </button>
         </div> */}
-        <div className='flex flex-col justify-center'>
+        <div className='flex flex-col m-10 mt-0 mb-0'>
                     <h2 className="text-lg font-semibold mb-4">Search Product for Advertisement</h2>
                     <input
                         type="text"

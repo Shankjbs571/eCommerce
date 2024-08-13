@@ -17,7 +17,7 @@ const Gadgets = ({ advertisements, status }) => {
     <div className="p-8 bg-white rounded-md">
       <h2 className="text-2xl font-bold text-center mb-6">Best Gadgets & Appliances</h2>
       <div className="relative">
-        <div className="flex  overflow-x-auto space-x-4 pb-4">
+        <div className="grid sm:grid-col-1 md:grid-cols-4">
           {advertisements.filter(advertisement => advertisement.section === "Section 1").slice(0, 4).map((advertisement, index) => (
             // <Link to={`/product/${advertisement.product?._id}`} key={index} className="flex-shrink-0">
               <div className="bg-white h-full border rounded-lg shadow-lg overflow-hidden w-64">
