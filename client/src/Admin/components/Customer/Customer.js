@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers, deleteUser } from '../../../Redux/User/userSlice';
+import { toast } from 'react-toastify';
 
 const inputClass = "w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500";
 const buttonClass = "px-3 py-1 border rounded-md";
@@ -17,8 +18,19 @@ const Customer = () => {
   }, [dispatch]);
 
   const handleDelete = (id) => {
-    dispatch(deleteUser(id));
+    const confirmDelete = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
+    if (confirmDelete) {
+    dispatch(deleteUser(id))
+    .then(() => {
+      toast.success('Account deleted successfully!');
+    })
+    .catch(() => {
+      toast.error('Failed to delete account!');
+    });
+  }
   };
+
+
 
   if (status === 'loading') {
     return <div>Loading...</div>;

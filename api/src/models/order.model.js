@@ -23,20 +23,29 @@ const orderSchema = new Schema({
         ref: 'addresses',
     },
     paymentDetails: {
-
         paymentMethod: {
+            type: String,
+            required: true,
+        },
+        razorpay_order_id: {
+            type: String,
+        },
+        razorpay_payment_id: {
+            type: String,
+        },
+        razorpay_signature: {
             type: String,
         },
         transactionId: {
             type: String,
         },
         paymentId: {
-            type:String,
+            type: String,
         },
         paymentStatus: {
-            type:String,
-            default: "PENDING"
-        }
+            type: String,
+            default: "PENDING",
+        },
     },
     totalPrice: {
         type: Number,

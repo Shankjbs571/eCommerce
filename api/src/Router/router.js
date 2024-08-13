@@ -12,6 +12,7 @@ import couponsRoute from "../routes/coupons.route.js";
 import OrderRouter from "../routes/order.route.js";
 import deliveryRoute from "../routes/delivery.routes.js";
 import { importProducts } from "../controller/importexport.js";
+import paymentRoute from "../routes/payment.route.js";
 import { testingRegisterUser } from "../controller/testing.controller.js";
 import Test from "../routes/test.js";
 const allRouter = express.Router();
@@ -28,6 +29,7 @@ allRouter.use("/coupons", couponsRoute);
 allRouter.use("/order", OrderRouter);
 allRouter.use("/cart", cartRouter);
 allRouter.use("/delivery", deliveryRoute);
+allRouter.use("/payment", paymentRoute);
 allRouter.use('/import',importProducts);
 allRouter.use('/test',Test);
 
