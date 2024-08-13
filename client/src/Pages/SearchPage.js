@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../Redux/Product/productSlice";
-import { useCartContext } from "../Usecontext/cartContext";
-import { Link } from "react-router-dom";
 import Navbar from "../customer/Components/Navbar/Navbar.js";
 import ProductCard from "../customer/Components/Products/Cards.js";
 
 const SearchResults = () => {
   const { name } = useParams();
-  console.log(name)
   const dispatch = useDispatch();
-  const { products, status } = useSelector((state) => state.products);
+
+  const { products = [], status } = useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if (status === "idle") {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, status]);
 
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -25,13 +25,13 @@ const SearchResults = () => {
     return <div>Error fetching products</div>;
   }
 
-  const filteredProducts = products&&products.filter(
-    (product) =>
-      product?.title?.toLowerCase().includes(name?.toLowerCase()) ||
-      product?.category?.name.toLowerCase().includes(name?.toLowerCase()) ||
-      product?.brand.toLowerCase().includes(name?.toLowerCase())
-  );
-console.log(filteredProducts)
+  const filteredProducts = products.filter((product) => {
+    const titleMatch = product?.title?.toLowerCase().includes(name?.toLowerCase());
+    const categoryMatch = product?.category?.name?.toLowerCase().includes(name?.toLowerCase());
+    const brandMatch = product?.brand?.toLowerCase().includes(name?.toLowerCase());
+    return titleMatch || categoryMatch || brandMatch;
+  });
+
   return (
     <>
       <Navbar />

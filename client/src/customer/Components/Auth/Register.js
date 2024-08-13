@@ -236,7 +236,51 @@ const Register = ({ showModal, setShowModal }) => {
   function SignInForm() {
     return (
      
-      <div className="flex justify-center items-center w-6/12 ">
+     <></>
+    );
+  }
+  
+  function SocialLoginOptions() {
+    const socialIcons = [
+    ];
+  
+    return (
+      <>
+        <div className="flex gap-5 items-center justify-center mt-10 text-xs tracking-wide text-center text-gray-400">
+          {/* <img loading="lazy" className="w-fit" src="https://cdn.builder.io/api/v1/image/assets/TEMP/78ffab41280e8adde9839949e29c5a0c34f1aa126e483fb4e85fe93ce0a73e59?placeholderIfAbsent=true&apiKey=b18cd05798ae4dd7bd4cecc4acd64b6b" alt="" className="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[200] w-[183px]" /> */}
+          <div className="self-stretch">Or Continue with</div>
+          {/* <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/bd52dddc8bea4289cd4f23eab23b9febc522a970207173375c79f48aa64069ac?placeholderIfAbsent=true&apiKey=b18cd05798ae4dd7bd4cecc4acd64b6b" alt="" className="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[200] w-[182px]" /> */}
+        </div>
+        <div className="flex justify-center w-full items-center self-center">
+        <GoogleSignINUP />
+        </div>
+      </>
+    );
+  }  
+
+  return (
+    showModal && (
+      <div className="fixed p-20 inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-50">
+        
+      {/* <div className="bg-white dark:bg-card dark:text-white w-full max-w-4xl mx-auto rounded-lg shadow-lg flex flex-col md:flex-row animate-fadeIn"> */}
+      {/* <div className="bg-orange-500 hover:bg-orange-550 p-10 flex-1 hidden lg:flex items-center flex-col justify-between animate-slideInLeft"> */}
+          {/* <div className="text-primary-foreground p-6 rounded-lg max-w-sm">
+              <h2 className="text-3xl font-bold text-gray-700 mb-4">Welcome Back!</h2>
+              <p className="text-muted-foreground text-gray-600">
+                Log in to continue shopping with us!
+              </p>
+            </div> */}
+            {/* <WelcomeCard /> */}
+            {/* <img
+              src={registerlogo}
+              alt="Illustration of a person logging in"
+            className="max-w-full bg-cover h-[300px] w-[400px] animate-bounce image-hover"
+            /> */}
+            {/* <div className=" bg-white"> */}
+              <div className="flex h-auto">
+
+                <WelcomeSection />
+                <div className="flex justify-center items-center w-6/12 ">
       <div className="px-20 pt-64 pb-96 text-white bg-white">
         <div className="flex  flex-col max-w-full rounded-lg bg-white  ">
         <button
@@ -400,52 +444,7 @@ const Register = ({ showModal, setShowModal }) => {
             </div>
         </div>
       </div>
-    </div>
-    );
-  }
-  
-  function SocialLoginOptions() {
-    const socialIcons = [
-    ];
-  
-    return (
-      <>
-        <div className="flex gap-5 items-center justify-center mt-10 text-xs tracking-wide text-center text-gray-400">
-          {/* <img loading="lazy" className="w-fit" src="https://cdn.builder.io/api/v1/image/assets/TEMP/78ffab41280e8adde9839949e29c5a0c34f1aa126e483fb4e85fe93ce0a73e59?placeholderIfAbsent=true&apiKey=b18cd05798ae4dd7bd4cecc4acd64b6b" alt="" className="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[200] w-[183px]" /> */}
-          <div className="self-stretch">Or Continue with</div>
-          {/* <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/bd52dddc8bea4289cd4f23eab23b9febc522a970207173375c79f48aa64069ac?placeholderIfAbsent=true&apiKey=b18cd05798ae4dd7bd4cecc4acd64b6b" alt="" className="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[200] w-[182px]" /> */}
-        </div>
-        <div className="flex justify-center w-full items-center self-center">
-        <GoogleSignINUP />
-        </div>
-      </>
-    );
-  }  
-
-  return (
-    showModal && (
-      <div className="fixed p-20 inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black bg-opacity-50">
-        
-      {/* <div className="bg-white dark:bg-card dark:text-white w-full max-w-4xl mx-auto rounded-lg shadow-lg flex flex-col md:flex-row animate-fadeIn"> */}
-      {/* <div className="bg-orange-500 hover:bg-orange-550 p-10 flex-1 hidden lg:flex items-center flex-col justify-between animate-slideInLeft"> */}
-          {/* <div className="text-primary-foreground p-6 rounded-lg max-w-sm">
-              <h2 className="text-3xl font-bold text-gray-700 mb-4">Welcome Back!</h2>
-              <p className="text-muted-foreground text-gray-600">
-                Log in to continue shopping with us!
-              </p>
-            </div> */}
-            {/* <WelcomeCard /> */}
-            {/* <img
-              src={registerlogo}
-              alt="Illustration of a person logging in"
-            className="max-w-full bg-cover h-[300px] w-[400px] animate-bounce image-hover"
-            /> */}
-            {/* <div className=" bg-white"> */}
-              <div className="flex h-auto">
-
-                <WelcomeSection />
-                <SignInForm />
-              </div>
+    </div>              </div>
             {/* </div> */}
           {/* </div> */}
           {/* <div className="p-8 flex-1">
