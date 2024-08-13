@@ -56,6 +56,21 @@ console.log(productData.Barcode, 'GST pad product');
         const name = await Product.findOne({ title: productData.NAME });
         const existingSlug = await Product.findOne({ slug: productData.NAME });
         if (existingProduct || name || existingSlug) {  
+                 if(name)
+            {
+              name.BarCode = barcode;
+              await name.save();
+            }  
+            if(existingProduct)
+              {
+                existingProduct.BarCode = barcode;
+                await existingProduct.save();
+              }  
+              if(existingSlug)
+                {
+                  existingSlug.BarCode = barcode;
+                  await existingSlug.save();
+                }  
           skippedProducts.push(productData);
           continue;
         }
