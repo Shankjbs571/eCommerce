@@ -237,7 +237,7 @@ const Advertisements = () => {
 
             
 
-            <div className="mt-8 grid grid-cols-2 gap-20">
+            <div className="m-10 mt-8 ml-0 mr-0 w-auto  md:grid max-md:flex max-md:flex-col max-md:flex-col-reverse md:grid-cols-2 gap-20">
                 <div>
                     <div className='mb-2'>
                         <h2 className="text-lg font-bold mb-4">Section Title</h2>
