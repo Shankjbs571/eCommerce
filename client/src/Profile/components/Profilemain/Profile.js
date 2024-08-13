@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserById, updateUser } from '../../../Redux/User/userSlice'; // Adjust path as needed
+import { deleteUser, fetchUserById, updateUser } from '../../../Redux/User/userSlice'; // Adjust path as needed
 import {jwtDecode} from 'jwt-decode'; // Correct import
 import { toast } from 'react-toastify';
+import { FaUserEdit } from "react-icons/fa";
+import { FaUserCheck } from "react-icons/fa";
 import 'react-toastify/dist/ReactToastify.css';
 
 const inputClasses = "border border-gray-300 font-bold text-gray-500 rounded-lg p-2";
@@ -79,19 +81,26 @@ const Profile = () => {
   const handleDeleteAccount = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
     if (confirmDelete) {
-      // Dispatch the delete account action
-      // Assuming you have an action to handle account deletion
-      // dispatch(deleteUser(currentUser._id));
-      toast.success('Account deleted successfully!');
+      dispatch(deleteUser(currentUser._id))
+        .then(() => {
+          toast.success('Account deleted successfully!');
+          localStorage.removeItem('authToken');
+          // You may want to redirect the user to the homepage or a logout page after deletion
+          window.location.href = '/';
+        })
+        .catch(() => {
+          toast.error('Failed to delete account!');
+        });
     }
   };
+  
 
   return (
     <div className="max-w-5xl mx-auto p-8 bg-white text-card-foreground rounded-lg shadow-md">
       <div className={flexClasses}>
         <h2 className="text-xl font-semibold">Profile Information</h2>
         <button className={buttonClasses} onClick={isEditing ? handleSave : toggleEdit}>
-          {isEditing ? 'Save' : 'Edit'}
+          {isEditing ?   <FaUserCheck className='text-green-500 text-xl'/> : <FaUserEdit className='text-orange-500 text-xl'/>}
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

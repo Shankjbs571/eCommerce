@@ -2,18 +2,31 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../axiosConfig';
 import { toast } from 'react-toastify';
 
-export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWithValue }) => {
-  try {
-    const response = await axiosInstance.get('/cart/getCartDetails');
-    const items = [response.data.data.cartItems, response.data.data];
-    return items;
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      return rejectWithValue({ isUnauthorized: true });
+export const fetchCart = createAsyncThunk(
+  'cart/fetchCart',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get('/cart/getCartDetails');
+      
+      // Return the cart items and additional data as an array
+      const items = [response.data.data.cartItems, response.data.data];
+      return items;
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 403) {
+          // Return an object with isForbidden flag set to true
+          return rejectWithValue({ isForbidden: true });
+        }
+        if (error.response.status === 401) {
+          // Return an object with isUnauthorized flag set to true
+          return rejectWithValue({ isUnauthorized: true });
+        }
+      }
+      // Return the actual error response data
+      return rejectWithValue(error.response.data);
     }
-    return rejectWithValue(error.response.data);
   }
-});
+);
 
 export const addToCart = createAsyncThunk('cart/addToCart', async (productId, { rejectWithValue }) => {
   try {

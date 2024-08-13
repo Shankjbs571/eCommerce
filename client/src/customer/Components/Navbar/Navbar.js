@@ -394,7 +394,7 @@
     FaBox,
     FaSignOutAlt,
   } from "react-icons/fa";
-  import { clearUser } from "../../../Redux/User/userSlice";
+  import { clearUser, signoutUser } from "../../../Redux/User/userSlice";
   import MobNavbar from "./MobileNavbar.js";
   import logo from "../../../logo.png";
   import { useNavigate } from "react-router-dom";
@@ -417,8 +417,22 @@
     }, [dispatch]);
   
     useEffect(() => {
-      dispatch(fetchCart());
-    },[dispatch]);
+      const fetchCartData = async () => {
+        const action = await dispatch(fetchCart());
+  
+        if (fetchCart.rejected.match(action)) {
+          if (action.payload === 'Forbidden') {
+            dispatch(signoutUser()); // Sign out the user
+            navigate('/login'); // Redirect to login page
+          } else if (action.error?.message === '404') {
+            alert('Cart is empty');
+          }
+        }
+      };
+  
+      fetchCartData();
+    }, [dispatch, navigate]);
+
     const authToken = localStorage.getItem("authToken");
     const isAuthenticated = !!authToken;
   
@@ -468,10 +482,13 @@
       }
     };
   
-    const handleLogout = () => {
-      localStorage.removeItem("authToken");
-      dispatch(clearUser());
-      navigate("/");
+    const handleLogout = async () => {
+      try {
+        await dispatch(signoutUser()).unwrap(); // Dispatch the signoutUser thunk
+        navigate("/"); // Navigate to the homepage after successful logout
+      } catch (error) {
+        console.error('Logout failed:', error); // Handle any potential errors
+      }
     };
   
     const handleMouseEnter = (event) => {
@@ -509,7 +526,11 @@
       };
     }, []);
   
-  
+    
+    const handleLogoClick = () => {
+      navigate('/');
+    };
+    
     function CategoryButton({ category, isActive,icon }) {
       return (
               // <button
@@ -920,10 +941,12 @@
     
       <>
       <header className="sticky top-0 left-0 right-0 flex flex-wrap justify-between items-center pt-2 w-full bg-orange-600 max-md:px-5 z-50 max-md:max-w-full">
-        <div className={apalbajarlogoclasses} >
-          {/* <img src={logo} alt="Logo" className="h-10" crossOrigin="anonymous"/> */}
-          <p className="font-bold text-white lg:text-2xl text-lg">Apala<span className="text-gray-600">Bajar</span></p>
-        </div>
+      <div className={apalbajarlogoclasses} onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
+      {/* <img src={logo} alt="Logo" className="h-10" crossOrigin="anonymous"/> */}
+      <p className="font-bold text-white lg:text-2xl text-lg">
+        Apala<span className="text-gray-600">Bajar</span>
+      </p>
+    </div>
         { viewport ? null : ( <div className="flex flex-wrap gap-3.5 px-8 w-fit max-md:max-w-full">
             <SearchBar />
             {/* <IconGroup /> */}
