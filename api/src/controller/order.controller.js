@@ -178,4 +178,34 @@ await TotalAllupdateSalesData(OrderSale,cancelFields);
     .json(new ApiResponse(200, "Order cancelled successfully", order));
 });
 
-export { cancelOrder, placeOrder, getAllOrders };
+// Get All Orders for Admin
+const getAllOrdersAdmin = asyncHandler(async (req, res) => {
+  try {
+    const orders = await Order.find({})
+      .populate({
+        path: "orderItems",
+        populate: {
+          path: "product",
+          model: "products", // Ensure this matches your Product model name
+        },
+      })
+      .populate("user");
+
+    if (!orders || orders.length === 0) {
+      return res
+        .status(404)
+        .json(new ApiResponse(404, "No orders found", null));
+    }
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "Orders fetched successfully", orders));
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json(new ApiResponse(500, "Error fetching orders", error.message));
+  }
+});
+
+export { cancelOrder, placeOrder, getAllOrders, getAllOrdersAdmin };

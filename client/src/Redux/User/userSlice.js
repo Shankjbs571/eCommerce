@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../axiosConfig';
-import axios from 'axios';
 
 // Async thunks for user operations
 
@@ -9,6 +8,16 @@ export const fetchUserById = createAsyncThunk('user/fetchUserById', async (id, {
   try {
     const response = await axiosInstance.get(`/user/view/${id}`);
     return response.data.data; // Assuming the user data is under `data`
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
+// Sign out a user
+export const signoutUser = createAsyncThunk('user/signoutUser', async (_, { rejectWithValue }) => {
+  try {
+    await axiosInstance.delete('/auth/signout');
+    localStorage.removeItem("authToken");
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
@@ -77,6 +86,8 @@ const userSlice = createSlice({
       .addCase(fetchUserById.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+        state.isAuthenticated = false;
+        state.currentUser = null;
       })
       .addCase(fetchUsers.pending, (state) => {
         state.status = 'loading';
@@ -120,22 +131,23 @@ const userSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      .addCase(signoutUser.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(signoutUser.fulfilled, (state) => {
+        state.status = 'succeeded';
+        state.currentUser = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(signoutUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       });
   },
 });
 
+// Export the actions to use them in your components
 export const { setUser, clearUser } = userSlice.actions;
-
-export const signoutUser = () => async dispatch => {
-    try {
-      
-        await axiosInstance.delete('/auth/signout'); 
-        localStorage.removeItem("authToken");
-        dispatch(clearUser());
-        
-    } catch (error) {
-        console.error('Failed to sign out:', error);
-    }
-};
 
 export default userSlice.reducer;

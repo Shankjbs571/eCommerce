@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
-import { fetchUserById, updateUser } from '../../Redux/User/userSlice';
+import { fetchUserById, signoutUser, updateUser } from '../../Redux/User/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { LuLogOut } from "react-icons/lu";
 
@@ -57,12 +57,13 @@ const Navbar = ({ toggleSidebar }) => {
     setIsEditing(false);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    document.cookie.split(';').forEach(cookie => {
-      document.cookie = cookie.split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
-    });
-    window.location.href = '/'; // Adjust the redirect path as needed
+  const handleLogout = async () => {
+    try {
+      await dispatch(signoutUser()).unwrap(); // Dispatch the signoutUser thunk
+      navigate("/"); // Navigate to the homepage after successful logout
+    } catch (error) {
+      console.error('Logout failed:', error); // Handle any potential errors
+    }
   };
 
   return (

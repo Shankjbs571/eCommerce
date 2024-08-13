@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../customer/Components/Navbar/Navbar';
 import ProfileInformation from './components/Profilemain/Profile';
 import ManageAddresses from './components/Profilemain/profileAddress';
@@ -14,15 +14,16 @@ import MyWishlist from './components/Wishlist/WishList';
 import './Myprofile.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {jwtDecode} from 'jwt-decode';
-import { fetchUserById, updateUser } from '../Redux/User/userSlice';
+import { fetchUserById, signoutUser, updateUser } from '../Redux/User/userSlice';
 import MyOrders from './components/Orders/MyOrders.js';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-
+  const navigate = useNavigate();
   const handleMouseEnter = () => setIsHovering(true);
   const handleMouseLeave = () => setIsHovering(false);
   const handleImageClick = () => setIsEditing(true);
@@ -39,21 +40,17 @@ const Sidebar = ({ isOpen, onClose }) => {
     setIsEditing(false);
   };
 
-  const handleLogout = () => {
-    // Clear local storage
-    localStorage.clear();
-
-    // Clear cookies
-    document.cookie.split(';').forEach(cookie => {
-      document.cookie = cookie.split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
-    });
-
-    // Redirect to login page or home page
-    window.location.href = '/'; // Adjust the redirect path as needed
+  const handleLogout = async () => {
+    try {
+      await dispatch(signoutUser()).unwrap(); // Dispatch the signoutUser thunk
+      navigate("/"); // Navigate to the homepage after successful logout
+    } catch (error) {
+      console.error('Logout failed:', error); // Handle any potential errors
+    }
   };
 
   return (
-    <aside className={`fixed top-0 left-0 w-64 bg-white shadow-md p-4 transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:relative lg:w-1/4 z-30`}>
+    <aside className={`fixed top-0 left-0  bg-white  shadow-md p-4 transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:relative lg:w-1/5 z-30`}>
       <button
         onClick={onClose}
         className="absolute top-4 right-4 lg:hidden text-xl focus:outline-none"

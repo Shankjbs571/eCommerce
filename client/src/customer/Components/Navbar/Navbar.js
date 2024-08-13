@@ -394,7 +394,7 @@
     FaBox,
     FaSignOutAlt,
   } from "react-icons/fa";
-  import { clearUser } from "../../../Redux/User/userSlice";
+  import { clearUser, signoutUser } from "../../../Redux/User/userSlice";
   import MobNavbar from "./MobileNavbar.js";
   import logo from "../../../logo.png";
   import { useNavigate } from "react-router-dom";
@@ -417,8 +417,18 @@
     }, [dispatch]);
   
     useEffect(() => {
-      dispatch(fetchCart());
-    },[dispatch]);
+      const fetchCartData = async () => {
+        const action = await dispatch(fetchCart());
+        
+        if (fetchCart.rejected.match(action) && action.payload === 'Forbidden') {
+          dispatch(signoutUser()); // Sign out the user
+          navigate('/login'); // Redirect to login page
+        }
+      };
+  
+      fetchCartData();
+    }, [dispatch, navigate]);
+
     const authToken = localStorage.getItem("authToken");
     const isAuthenticated = !!authToken;
   
@@ -468,10 +478,13 @@
       }
     };
   
-    const handleLogout = () => {
-      localStorage.removeItem("authToken");
-      dispatch(clearUser());
-      navigate("/");
+    const handleLogout = async () => {
+      try {
+        await dispatch(signoutUser()).unwrap(); // Dispatch the signoutUser thunk
+        navigate("/"); // Navigate to the homepage after successful logout
+      } catch (error) {
+        console.error('Logout failed:', error); // Handle any potential errors
+      }
     };
   
     const handleMouseEnter = (event) => {
