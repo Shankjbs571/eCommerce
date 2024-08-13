@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import { pink } from '@mui/material/colors';
 import HeroSection from './HeroSection';
+import { BiPencil } from 'react-icons/bi';
 
 
 
@@ -218,10 +219,10 @@ const Advertisements = () => {
     };
 
     return (
-        <div className="mx-auto mt-16 w-fit">
+        <div className="mx-auto bg-[#eff4f8]  pt-16 w-fit">
             <ToastContainer />
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex pl-3 pr-3 flex-wrap gap-4">
                 {SectionTabs.map((SectionTab) => (
                     <CardComponent
                         key={SectionTab.id}
@@ -236,23 +237,24 @@ const Advertisements = () => {
 
             
 
-            <div className="mt-8 grid grid-cols-2 gap-20">
+            <div className="m-10 mt-8 ml-0 mr-0 w-auto  md:grid max-md:flex max-md:flex-col max-md:flex-col-reverse md:grid-cols-2 gap-20">
                 <div>
                     <div className='mb-2'>
                         <h2 className="text-lg font-bold mb-4">Section Title</h2>
-                        { editTitle ? <input
-                            type="text"
-                            className="w-full p-2 border rounded-md"
-                            placeholder="Enter Title Name..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        /> : <h2 className="text-lg font-bold mb-4">Best Gadgets</h2>
-                        }
-                    
-                        <button className="flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">
-                            {/* <PencilIcon className="h-5 w-5 mr-2" /> */}
-                            Edit
-                        </button> */}
+                        <div className='flex'>
+                            { editTitle ? <input
+                                type="text"
+                                className="w-full p-2 border rounded-md"
+                                placeholder="Enter Title Name..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            /> : <h2 className="text-lg font-bold mb-4">Best Gadgets</h2>
+                            }
+                            <button className="flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600">
+                                <BiPencil className="h-5 w-5 mr-2" />
+                                Edit
+                            </button>
+                        </div>
                     </div>
                     <h2 className="text-lg font-semibold mb-4">Saved Ads</h2>
                     
