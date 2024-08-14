@@ -1,9 +1,10 @@
 import React from 'react'
+import Process from '../../../Routers/Process'
 
 const Coupons = () => {
   return (
     <div>
-      coupons
+      <Process/>
     </div>
   )
 }

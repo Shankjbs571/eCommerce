@@ -68,7 +68,7 @@ const Trending = () => {
         <h2 className="text-2xl font-bold mb-4">
           Grab the best Product in <span className="text-orange-500">Trending</span>
         </h2>
-        <button onClick={handleViewAllClick} className="text-orange-500">
+        <button onClick={handleViewAllClick} className="text-white bg-orange-500 px-2 py-1 rounded-md hover:bg-orange-600">
           {showAll ? 'Show Less' : 'View All'}
         </button>
       </div>

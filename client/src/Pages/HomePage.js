@@ -139,6 +139,7 @@ import Maylike from "../customer/Components/Adverties/Maylike.js";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdvertisements } from "../Redux/Advertisements/advertisementSlice.js";
 import { Link } from "react-router-dom";
+import AdvertisementFinal from "../customer/Components/Adverties/AdvertismentFinal.js";
 import axiosInstance from "../axiosConfig.js";
 
 
@@ -273,7 +274,7 @@ function HomePage() {
       <Navbar />
     <div className="flex flex-col overflow-hidden bg-white">
       <div className="w-full flex justify-center items-center">
-        <div className="w-7/8 overflow-hidden m-2 p-12 rounded-md">
+        <div className="w-7/8 overflow-hidden lg:m-1 lg:p-10 rounded-md">
         <Slider {...settings} className="rounded-md">
         {adsstatus === "succeeded" && (
           (() => {
@@ -344,6 +345,7 @@ function HomePage() {
       
       <ProductComponent section3title={section3title} advertisements={advertisements} status={adsstatus} />
       <HomePageAdvertisement section4title={section4title} advertisements={advertisements} status={adsstatus} />
+      <AdvertisementFinal/>
       <Maylike />
       <PopularBrand />
       <Footer />
