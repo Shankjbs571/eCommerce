@@ -13,6 +13,6 @@ const advertisementsSectionTitleSchema = new mongoose.Schema({
   }, 
   { timestamps: true });
 
-const AdvertisementsSectionTitleSchema = mongoose.model("advertisementsSectionTitleSchema", advertisementsSectionTitleSchema);
+const AdvertisementsSectionTitle = mongoose.model("advertisementsSectionTitle", advertisementsSectionTitleSchema);
 
-export default AdvertisementsSectionTitleSchema;
+export default AdvertisementsSectionTitle;

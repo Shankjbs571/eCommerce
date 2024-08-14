@@ -2,10 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Gadgets = ({ advertisements, status }) => {
+const Gadgets = ({section4title, advertisements, status }) => {
   return (
     <div className="p-8 bg-gray-50 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Today's Sponsors</h2>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">{section4title}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {advertisements
           .filter((advertisement) => advertisement.section === "Section 4")
