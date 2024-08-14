@@ -19,7 +19,6 @@ export const importProducts = async (req, res) => {
   try {
     const importedProducts = [];
     const skippedProducts = [];
-    let count=1;
     for (const productData of products) {
       delete productData._id;
 
@@ -48,10 +47,13 @@ export const importProducts = async (req, res) => {
       }
 
       // Handle product barcode
-      let barcode = productData.BarCode || productData.Barcode;
+      let barcode = productData.BarCode || productData.Barcode ;
+      if(productData['Update Barcode'])
+      {
+        barcode = productData['Update Barcode'];
+      }
       console.log(productData.BarCode, 'new product');
-console.log(productData.Barcode, 'GST pad product');
-       count++;
+      console.log(productData.Barcode, 'GST pad product');
       if (barcode && barcode !== 0) {
         const existingProduct = await Product.findOne({ BarCode: barcode });
         const name = await Product.findOne({ title: productData.NAME });
@@ -59,17 +61,17 @@ console.log(productData.Barcode, 'GST pad product');
         if (existingProduct || name || existingSlug) {  
             if(name)
             {
-              name.BarCode = barcode-count;
+              name.BarCode = barcode;
               await name.save();
             }  
             if(existingProduct)
               {
-                existingProduct.BarCode = barcode-count;
+                existingProduct.BarCode = barcode;
                 await existingProduct.save();
               }  
               if(existingSlug)
                 {
-                  existingSlug.BarCode = barcode-count;
+                  existingSlug.BarCode = barcode;
                   await existingSlug.save();
                 }  
           skippedProducts.push(productData);
