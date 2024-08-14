@@ -50,7 +50,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   };
 
   return (
-    <aside className={`fixed top-0 left-0  bg-white  shadow-md p-4 transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:relative lg:w-1/5 z-30`}>
+    <aside className={`fixed top-0 lg:z-0 z-50 left-0  bg-white  shadow-md p-4 transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:relative lg:w-1/5 z-30`}>
       <button
         onClick={onClose}
         className="absolute top-4 right-4 lg:hidden text-xl focus:outline-none"
@@ -193,7 +193,7 @@ const MyProfile = () => {
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <main className="flex-1 p-6">
           <button
-            className="lg:hidden fixed top-4 left-4 bg-blue-500 text-white p-2 rounded-md"
+            className="lg:hidden z-50 fixed top-4 left-4 bg-blue-500 text-white p-2 rounded-md"
             onClick={toggleSidebar}
           >
             ☰
