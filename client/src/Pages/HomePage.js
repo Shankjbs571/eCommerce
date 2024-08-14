@@ -139,6 +139,7 @@ import Maylike from "../customer/Components/Adverties/Maylike.js";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdvertisements } from "../Redux/Advertisements/advertisementSlice.js";
 import { Link } from "react-router-dom";
+import AdvertisementFinal from "../customer/Components/Adverties/AdvertismentFinal.js";
 
 
 function HomePage() {
@@ -301,6 +302,7 @@ function HomePage() {
 
       <ProductComponent advertisements={advertisements} status={adsstatus} />
       <HomePageAdvertisement advertisements={advertisements} status={adsstatus} />
+      <AdvertisementFinal/>
       <Maylike />
       <PopularBrand />
       <Footer />
