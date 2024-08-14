@@ -50,10 +50,12 @@ const MyOrders = () => {
           {orders.map((order) => (
             <div
               key={order._id}
-              className="p-4 bg-white rounded-lg shadow-md border border-zinc-200"
+              className={`p-4 rounded-lg ${
+                order.orderStatus === 'pending' ? 'bg-green-200' : 'bg-orange-200'
+              } shadow-md border border-zinc-200`}
             >
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold">Order ID: {order._id}</h2>
+                <h2 className="text-xs sm:text-lg font-semibold">Order ID: {order._id}</h2>
                 <button
                   onClick={() => handleToggle(order._id)}
                   className="text-orange-500"
@@ -65,16 +67,16 @@ const MyOrders = () => {
                   )}
                 </button>
               </div>
-              <p className="text-sm text-zinc-600">
+              <p className="text-2xs sm:text-sm text-zinc-600">
                 Order Date: {new Date(order.orderDate).toLocaleDateString()}
               </p>
-              <p className="text-sm text-zinc-600">
+              <p className="text-2xs sm:text-sm text-zinc-600">
                 Payment Method: {order.paymentDetails.paymentMethod}
               </p>
-              <p className="text-sm text-zinc-600">
+              <p className="text-2xs sm:text-sm text-zinc-600">
                 Order Status: {order.orderStatus}
               </p>
-              <p className="text-sm text-zinc-600">
+              <p className="text-2xs sm:text-sm text-zinc-600">
                 Total Price: ₹{order.totalPrice}
               </p>
               {expandedOrderId === order._id && (
@@ -82,22 +84,22 @@ const MyOrders = () => {
                   {order.orderItems.map((item) => (
                     <div
                       key={item._id}
-                      className="p-4 bg-gray-100 rounded-lg shadow-md"
+                      className="p-4 bg-white rounded-lg shadow-md"
                     >
                       <div className="flex items-center">
                         <img
                           src={item.product.imageUrl}
                           alt={item.product.title}
-                          className="w-20 h-20 rounded-lg"
+                          className="w-10 h-10 sm:w-20 sm:h-20 rounded-lg"
                         />
                         <div className="ml-4">
-                          <h3 className="text-lg font-semibold">
+                          <h3 className="text-sm sm:text-lg font-semibold">
                             {item.product.title}
                           </h3>
-                          <p className="text-sm text-zinc-600">
+                          <p className="text-2xs sm:text-sm text-zinc-600">
                             Quantity: {item.quantity}
                           </p>
-                          <p className="text-sm text-zinc-600">
+                          <p className="text-2xs sm:text-sm text-zinc-600">
                             Price: ₹{item.price} (Discounted: ₹{item.discountedPrice})
                           </p>
                         </div>
