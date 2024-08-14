@@ -241,9 +241,8 @@ const Advertisements = () => {
                 const response = await axiosInstance.get('/advertisementSectionTitle/view');
                 
                 if (response.status === 200) {
-                    const titles = response.data.data; // Assuming response.data is an array of section titles
+                    const titles = response.data.data; 
 
-                    // Find the title corresponding to the activeTab
                     const filteredTitle = titles.find(title => title.section === activeTab);
                     console.log("titles: ",titles);
                     console.log("filteredTitle: ",filteredTitle);
@@ -259,7 +258,6 @@ const Advertisements = () => {
                 }
             } catch (error) {
                 console.error('Error fetching section titles:', error);
-                // Handle error (e.g., show an error message)
             } finally {
             }
         };
@@ -276,24 +274,6 @@ const Advertisements = () => {
             setInputValue(title);  // Sync with prop updates
         }, [title]);
 
-        // const handleSave = async () => {
-        //     onSave(inputValue);
-        //     onClose();
-        //     try {
-        //         const response = await axiosInstance.post('/advertisementSectionTitle/create', {
-        //             title: inputValue,
-        //             section: activeTab,  // Assuming activeTab corresponds to the section
-        //         });
-    
-        //         if (response.status === 201 || response.status === 200) {
-        //             onSave(inputValue); // Update the parent state if needed
-        //             onClose(); // Close the modal
-        //         }
-        //     } catch (error) {
-        //         console.error('Error saving section title:', error);
-        //         // Handle error (e.g., show an error message)
-        //     }
-        // };
         const handleSave = async () => {
             if (!inputValue.trim()) {
                 setInputValue(".");
@@ -303,26 +283,23 @@ const Advertisements = () => {
             try {
                 let response;
                 if (sectionTitleId) {
-                    // Perform a PUT request if the section title already exists (i.e., has an ID)
                     response = await axiosInstance.put(`/advertisementSectionTitle/update/${sectionTitleId}`, {
                         title: inputValue,
-                        section: activeTab,  // Assuming activeTab corresponds to the section
+                        section: activeTab,  
                     });
                 } else {
-                    // Perform a POST request if creating a new section title
                     response = await axiosInstance.post('/advertisementSectionTitle/create', {
                         title: inputValue,
-                        section: activeTab,  // Assuming activeTab corresponds to the section
+                        section: activeTab,  
                     });
                 }
     
                 if (response.status === 200 || response.status === 201) {
-                    onSave(inputValue); // Update the parent state if needed
-                    onClose(); // Close the modal
+                    onSave(inputValue);
+                    onClose(); 
                 }
             } catch (error) {
                 console.error('Error saving section title:', error);
-                // Handle error (e.g., show an error message)
             }
         };
     
