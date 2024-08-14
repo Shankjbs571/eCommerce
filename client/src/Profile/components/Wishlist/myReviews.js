@@ -1,9 +1,10 @@
 import React from 'react'
+import Process from '../../../Routers/Process'
 
 const myReviews = () => {
   return (
     <div>
-      reviews
+     <Process/>
     </div>
   )
 }
