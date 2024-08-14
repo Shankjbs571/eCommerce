@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Cookingoil } from "./Cookingoil/Cookingoil";
-import { Dryfruits } from "./Dryfruits/Dryfruits";
-import { Flours } from "./Flours/Flours";
-import { Masala } from "./Masala & Spices/Masala";
-import { Pulses } from "./Pulses/Pulses";
-import { SaltSugarJaggery } from "./Salt-Sugar-Jaggery/Salt-Sugar-Jaggery";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../../Redux/Category/categoriesSlice";
@@ -14,40 +9,40 @@ import { fetchProducts } from "../../Redux/Product/productSlice";
 import { useLocation } from 'react-router-dom';
 import ProductCard  from "../../customer/Components/Products/Cards";
 
-function SideBar({ showall,filteredProducts , setShowAll, sidebarDairy, title, setActiveTab, activeTab, setActiveSubTab }) {
+function SideBar({ showall,filteredProducts , setShowAll, sidebarDairy, title, setActiveTab,setActivel1Tab, activeTab, setActiveSubTab }) {
   const location = useLocation();
   const [toggleBar, setToggleBar] = useState(true);
 
   return (
     <div className='max-h-screen sticky top-0 p-3 w-full lg:w-[12rem] '>
-      <div onClick={() => setToggleBar(!toggleBar)} className='bg-white/70 h-16 ml-4 lg:ml-0 lg:w-56 backdrop-blur-lg flex gap-2 items-center scale-110'>
+      <div onClick={() => setToggleBar(!toggleBar)} className='bg-white/70 h-12 ml-4  lg:w-fit backdrop-blur-lg flex gap-2 items-center scale-110'>
         <svg className='block md:block lg:hidden' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="21" x2="3" y1="6" y2="6" />
           <line x1="15" x2="3" y1="12" y2="12" />
           <line x1="17" x2="3" y1="18" y2="18" />
         </svg>
-        <h2>{title}</h2>
+        <h2 onClick={() => {setActiveTab(""); setActiveSubTab(""); setActivel1Tab("")}}>{title}</h2>
       </div>
       <div className={`${toggleBar ? 'hidden' : ''} bg-white/70 backdrop-blur-lg lg:static lg:block ml-4 border lg:w-full mt-3 text-sm space-y-3`}>
         {sidebarDairy.map((item) => (
           <div
             onClick={(e) => {
               setActiveTab(item.name);
-              filteredProducts(e,item.name)
+              filteredProducts(e,item.name);
               setShowAll(showall);
       
             }}
             className='flex flex-col transition-all py-1 px-2 hover:bg-green-200/90 cursor-pointer '
             key={item.name}
           >
-            <h2 className={`${activeTab === item.name ? showall ? 'underline underline-offset-2 cursor-pointer' : '' : ''}`}>{item.name}</h2>
+            <h2 onClick={() => {setActivel1Tab(item.name)}} className={`${activeTab === item.name ? showall ? 'underline underline-offset-2 cursor-pointer' : '' : ''}`}>{item.name}</h2>
             {activeTab === item.name && (
               <div className='bg-green-200 pl-4 pr-3 transition-all'>
                 {item.subCatog.map((items, i) => (
-           <button key={i} onClick={(e) => {setActiveSubTab(items);
-            filteredProducts(e,items)
-                  }} className='flex font-normal capitalize my-3 hover:underline transition-all'>
-                    {items} 
+                  <button key={i} onClick={(e) => {setActiveSubTab(items);
+                    filteredProducts(e,items); setActivel1Tab("")
+                          }} className='flex font-normal capitalize my-3 hover:underline transition-all'>
+                            <div className="w-full">{items} </div>
                   </button>
                 ))}
               </div>
@@ -66,6 +61,9 @@ function Grocery() {
   const categories = useSelector((state) => state.categories.categories) || [];
   const status = useSelector((state) => state.categories.status);
   const [filteredProduct,setFilteredProduct]=useState([])
+  const [filteredlevel0Products,setfilteredlevel0Products]=useState([])
+  const [filteredlevel1Products,setfilteredlevel1Products]=useState([])
+  
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchCategories());
@@ -77,6 +75,7 @@ function Grocery() {
   };
 
   const [activeTab, setActiveTab] = useState("");
+  const [activel1Tab, setActivel1Tab] = useState("");
   const [activeSubTab, setActiveSubTab] = useState("");
   const [showall, setShowAll] = useState(true);
 
@@ -99,6 +98,40 @@ function Grocery() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log("sidebarDairy: ",sidebarDairy)
+    const filteredl0Products = [];
+    sidebarDairy.forEach(item => {
+      const filtered = products.filter(product =>
+        item.subCatog.some(subcat => subcat.toLowerCase() == product.category?.name.toLowerCase())
+      );
+      filteredl0Products?.push(...filtered);
+    });
+    setfilteredlevel0Products(filteredl0Products);
+    console.log("filteredlevel0Products: ",filteredlevel0Products)
+
+
+  }, [parent])
+
+  useEffect(() => {
+    console.log("sidebarDairy: ",sidebarDairy)
+    let filteredl1Products = []
+    const activeElement = sidebarDairy?.find(item => item?.name.toLowerCase() === activel1Tab.toLowerCase());
+    console.log("activeElement: ",activeElement)
+
+
+    if (activeElement) {
+      // Step 2: Filter products based on the subCatog of the activeElement
+      filteredl1Products = products.filter(product =>
+        activeElement.subCatog.some(subcat => subcat.toLowerCase() === product.category?.name.toLowerCase())
+      );
+    }
+      
+    setfilteredlevel1Products(filteredl1Products);
+    console.log("filteredlevel1Products: ",filteredlevel1Products)
+
+  }, [activel1Tab])
+
   if (prodstatus === "loading") {
     return <div>Loading...</div>;
   }
@@ -107,11 +140,17 @@ function Grocery() {
     return <div>Error fetching products</div>;
   }
 
+  
+
+
+
+
   const filteredProducts = (e,cate)=>{
+
 
     if(cate){
       e.stopPropagation();
-      console.log(cate)
+      console.log("this is cate:",cate)
       const filtered = products.filter((product) =>
        product?.category?.name?.toLowerCase().includes(cate.toLowerCase())
    
@@ -122,10 +161,12 @@ function Grocery() {
       setFilteredProduct(filtered);
     }
   
+  
   };
 
   
   if (parent) {
+    console.log("parent is: ",parent);
     const level1 = [parent];
     const level2 = level1.map((x) => categories.filter((e) => e.parentCategory && e.parentCategory._id === x._id));
     const level3 = level2[0] || [];
@@ -150,12 +191,31 @@ function Grocery() {
             activeTab={activeTab}
             title={parent.name}
             sidebarDairy={sidebarDairy}
-    
+            setActivel1Tab={setActivel1Tab}
             key={"2"}
             filteredProducts ={filteredProducts }
           />
         )}
-        <div className="overflow-hidden">
+        <div className="p-10 w-full overflow-hidden">
+          { activeTab == ""
+           &&
+           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+              { console.log("inside activatb ==",filteredlevel0Products)}
+              {filteredlevel0Products?.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))
+              }
+            </div>
+          }
+          { activel1Tab && 
+           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+           { console.log("inside activatb ==",filteredlevel1Products)}
+           {filteredlevel1Products?.map((product) => (
+             <ProductCard key={product._id} product={product} />
+           ))
+           }
+         </div>
+          }
           {sidebarDairy.some((e)=>e.name.toLowerCase()==activeTab.toLowerCase() )&& 
 
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
