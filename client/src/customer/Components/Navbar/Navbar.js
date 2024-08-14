@@ -248,7 +248,7 @@ const Navbar = (props) => {
   function CategoryNavigation() {
     return (
       <nav className={navclasses}>
-        <div className="flex gap-4 self-center items-center justify-center w-full">
+        <div className="flex gap-4 self-center items-center justify-start w-full">
           <div className="border-r-[3px] p-2 pr-5 lg:pr-16 w-fit">
             <button
               onClick={handleNavigate}
@@ -350,14 +350,14 @@ const Navbar = (props) => {
                         My Profile
                       </button>
                       <button
-                        onClick={() => navigate("/myprofile/likes")}
+                        onClick={() => navigate("/myprofile/my-wishlist")}
                         className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
                       >
                         <FaRegHeart className="mr-2" />
                         Wishlist
                       </button>
                       <button
-                        onClick={() => navigate("/myprofile/orders")}
+                        onClick={() => navigate("/myprofile/my-orders")}
                         className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
                       >
                         <BsBox className="mr-2" />

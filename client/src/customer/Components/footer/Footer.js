@@ -10,7 +10,7 @@ const Footer = () => {
         
         {/* Column 1 */}
         <div className="w-full max-w-md mx-auto px-4">
-          <h2 className="text-xl font-semibold mb-4">Apala Bajar</h2>
+          <h2 className="text-xl font-bold lg:mb-12 mb-6 uppercase">Apala Bajar</h2>
           <h3 className="text-xl font-medium mb-2">Subscribe</h3>
           <p className="mb-4 text-sm">Get 10% off on your first order</p>
           <div className="relative flex items-center border border-orange-500 rounded overflow-hidden">

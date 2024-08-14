@@ -14,8 +14,8 @@ function SideBar({ showall,filteredProducts , setShowAll, sidebarDairy, title, s
   const [toggleBar, setToggleBar] = useState(true);
 
   return (
-    <div className='max-h-screen sticky top-0 p-3 w-full lg:w-[12rem] '>
-      <div onClick={() => setToggleBar(!toggleBar)} className='bg-white/70 h-12 ml-4  lg:w-fit backdrop-blur-lg flex gap-2 items-center scale-110'>
+    <div className='max-h-screen  sticky m-4 pr-4 py-4  top-0 w-fit border-2  shadow-lg border-gray-200 '>
+      <div onClick={() => setToggleBar(!toggleBar)} className='bg-white/70 border-b-2 border-orange-700 h-12 ml-4  w-fit backdrop-blur-lg flex gap-2 items-center scale-110'>
         <svg className='block md:block lg:hidden' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="21" x2="3" y1="6" y2="6" />
           <line x1="15" x2="3" y1="12" y2="12" />
@@ -23,7 +23,7 @@ function SideBar({ showall,filteredProducts , setShowAll, sidebarDairy, title, s
         </svg>
         <h2 onClick={() => {setActiveTab(""); setActiveSubTab(""); setActivel1Tab("")}}>{title}</h2>
       </div>
-      <div className={`${toggleBar ? 'hidden' : ''} bg-white/70 backdrop-blur-lg lg:static lg:block ml-4 border lg:w-full mt-3 text-sm space-y-3`}>
+      <div className={`${toggleBar ? 'hidden' : ''}  backdrop-blur-lg lg:static lg:block ml-4  lg:w-fit mt-3 text-sm space-y-3`}>
         {sidebarDairy.map((item) => (
           <div
             onClick={(e) => {
@@ -32,16 +32,16 @@ function SideBar({ showall,filteredProducts , setShowAll, sidebarDairy, title, s
               setShowAll(showall);
       
             }}
-            className='flex flex-col transition-all py-1 px-2 hover:bg-green-200/90 cursor-pointer '
+            className='flex flex-col px-2 hover:bg-gray-50/95 transition-all py-1  max-w-fit cursor-pointer '
             key={item.name}
           >
-            <h2 onClick={() => {setActivel1Tab(item.name)}} className={`${activeTab === item.name ? showall ? 'underline underline-offset-2 cursor-pointer' : '' : ''}`}>{item.name}</h2>
+            <h2 onClick={() => {setActivel1Tab(item.name)}} className={`${activeTab === item.name ? showall ? 'border-b-2 backdrop-blur-lg border-orange-700  p-2 cursor-pointer' : '' : ''}`}>{item.name}</h2>
             {activeTab === item.name && (
-              <div className='bg-green-200 pl-4 pr-3 transition-all'>
+              <div className=' w-fit px-2 items-center  whitespace-nowrap  transition-all'>
                 {item.subCatog.map((items, i) => (
                   <button key={i} onClick={(e) => {setActiveSubTab(items);
                     filteredProducts(e,items); setActivel1Tab("")
-                          }} className='flex font-normal capitalize my-3 hover:underline transition-all'>
+                          }} className='flex font-normal capitalize my-3 px-2 hover:text-orange-600 transition-all'>
                             <div className="w-full">{items} </div>
                   </button>
                 ))}
@@ -180,7 +180,7 @@ function Grocery() {
 
   return (
     <div className="">
-      {viewport ? <MobileNavbar /> : <Navbar number={12} />}
+      {viewport ? <Navbar number={10} /> : <Navbar number={10} />}
       <div className="flex flex-col lg:flex-row font-semibold">
         {parent && (
           <SideBar

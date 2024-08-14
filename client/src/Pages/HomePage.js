@@ -231,7 +231,7 @@ function HomePage() {
       <Navbar />
     <div className="flex flex-col overflow-hidden bg-white">
       <div className="w-full flex justify-center items-center">
-        <div className="w-7/8 overflow-hidden m-2 p-12 rounded-md">
+        <div className="w-7/8 overflow-hidden lg:m-1 lg:p-10 rounded-md">
         <Slider {...settings} className="rounded-md">
         {adsstatus === "succeeded" && (
           (() => {
