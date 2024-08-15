@@ -15,7 +15,7 @@ const UpdateProductModal = ({ product, onClose, onUpdate }) => {
     discountPercent: product.discountPercent || '',
     quantity: product.quantity || '',
     brand: product.brand || '',
-    category: product.category?._id || '',
+    category:(!product.category) ? '' :  product.category ,
     imageUrl: null,
   });
 
