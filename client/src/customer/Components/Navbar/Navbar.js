@@ -5,10 +5,11 @@ import { BsBox } from "react-icons/bs";
 import { GrLogout } from "react-icons/gr";
 import { clearUser, signoutUser } from "../../../Redux/User/userSlice";
 import MobNavbar from "./MobileNavbar.js";
-import logo from "../../../logo.png";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../../Redux/Cart/cartSlice";
+import logo from "./logo.png"
 import { fetchCategories } from "../../../Redux/Category/categoriesSlice.js"; // Adjust the path as necessary
 
 const Navbar = (props) => {
@@ -434,7 +435,7 @@ const Navbar = (props) => {
         >
           {/* <img src={logo} alt="Logo" className="h-10" crossOrigin="anonymous"/> */}
           <p className="font-bold text-white lg:text-2xl text-lg">
-            Apala<span className="text-gray-600">Bajar</span>
+           <img src={logo} alt="logo" className="h-11 w-28"/>
           </p>
         </div>
         {viewport ? null : (
