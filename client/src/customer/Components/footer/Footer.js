@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPaperPlane } from 'react-icons/fa';
-import qrCodeImage from './l.jpg'; 
+import qrCodeImage from './qrcode.png'; 
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -60,7 +60,7 @@ const Footer = () => {
         <div>
           <h2 className="text-xl font-semibold mb-4">Apala Bajar</h2>
           <div className="flex mb-4">
-            <img src={qrCodeImage} alt="QR Code" className="w-20 h-20 mr-4" />
+            <img src={qrCodeImage} alt="QR Code" className="w-40 h-28 mr-6 " />
           </div>
           <div className="flex space-x-3 text-2xl">
             <FaFacebook className="hover:text-orange-500 cursor-pointer" />
