@@ -133,29 +133,31 @@ function ProductDetails() {
       </div>
       <div>
         <div style={{ height: sectionHeight + '30px', overflow: 'hidden', transition: 'height 0.3s ease' }} className="product-details-container mt-20 mb-8">
-          <div className="product-image-section">
-         
-            <div className="main-image">
-              <Slider {...settings}>
-                <img
-                  src={productDetails?.imageUrl}
-                  alt="Product Image"
-                  className="w-full h-auto object-contain "
-                />
-              </Slider>
-            </div>
-            <div className="image-gallery">
-              {[...Array(4)].map((_, index) => (
-                <div key={index} className="thumbnail">
-                  <img
-                    src={productDetails?.imageUrl} 
-                    alt={`Product Thumbnail ${index + 1}`}
-                    className="thumbnail-img"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="product-image-section">
+  <div className="image-frame">
+    <div className="main-image relative rounded-lg overflow-hidden">
+      <Slider {...settings}>
+        <img
+          src={productDetails?.imageUrl}
+          alt="Product Image"
+          className="w-full h-auto object-contain"
+        />
+      </Slider>
+    </div>
+  </div>
+  <div className="image-gallery">
+    {[...Array(4)].map((_, index) => (
+      <div key={index} className="thumbnail">
+        <img
+          src={productDetails?.imageUrl}
+          alt={`Product Thumbnail ${index + 1}`}
+          className="thumbnail-img"
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
           <div className="product-info-section">
             <h1 className="product-title">{productDetails?.title}</h1>
             <div className="product-pricing">

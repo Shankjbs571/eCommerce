@@ -51,8 +51,8 @@ const ProductTable = () => {
           closeUpdateModal();
         }
       });
-    dispatch(fetchProducts());
-  };
+      window.location.reload();
+    };
 
   // Function to truncate description
   const truncateDescription = (text, wordLimit) => {
@@ -125,7 +125,7 @@ const ProductTable = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">{product.title}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {truncateDescription(product.description, 15)}
+                        {(product.description) ? truncateDescription(product.description, 15): "None"}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {product.category?.name || "No Category"}
