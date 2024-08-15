@@ -51,6 +51,7 @@ const ProductTable = () => {
           closeUpdateModal();
         }
       });
+    dispatch(fetchProducts());
   };
 
   // Function to truncate description

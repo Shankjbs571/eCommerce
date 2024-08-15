@@ -343,9 +343,9 @@ function HomePage() {
       </div>
       
       
-      <ProductComponent section3title={section3title} advertisements={advertisements} status={adsstatus} />
+      {/* <ProductComponent section3title={section3title} advertisements={advertisements} status={adsstatus} /> */}
       <HomePageAdvertisement section4title={section4title} advertisements={advertisements} status={adsstatus} />
-      <AdvertisementFinal/>
+      <AdvertisementFinal advertisements={advertisements} status={adsstatus} />
       <Maylike />
       <PopularBrand />
       <Footer />
