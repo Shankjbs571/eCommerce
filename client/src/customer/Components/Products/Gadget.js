@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Gadgets = ({ advertisements, status }) => {
+const Gadgets = ({ section1title, advertisements, status }) => {
   // Filter and slice advertisements once
   const filteredAds = advertisements.filter(advertisement => advertisement.section === "Section 1").slice(0, 8);
 
   return (
     <div className="p-8 bg-white rounded-md">
-      <h2 className="text-2xl font-bold text-center mb-6">Best Gadgets & Appliances</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">{section1title}</h2>
       <div className="relative">
         <div className="flex flex-wrap gap-4 pb-4">
           {filteredAds.map((advertisement, index) => (

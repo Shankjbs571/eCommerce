@@ -12,6 +12,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import { pink } from '@mui/material/colors';
 import HeroSection from './HeroSection';
 import { BiPencil } from 'react-icons/bi';
+import axiosInstance from '../../../axiosConfig';
 
 
 
@@ -62,7 +63,23 @@ const Advertisements = () => {
     // const [publishedAdvertisements, setPublishedAdvertisements] = useState([]);
 
     const [sectionTitle, setsectionTitle] = useState('');
-    const [editTitle, seteditTitle] = useState(false);
+    const [editTitle, setEditTitle] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [sectionTitleId, setSectionTitleId] = useState(null);
+    
+
+
+    const openModal = () => {
+        setEditTitle(true);
+    };
+
+    const closeModal = () => {
+        setEditTitle(false);
+    };
+
+    const saveTitle = (newTitle) => {
+        setsectionTitle(newTitle);
+    };
 
 
 
@@ -218,6 +235,105 @@ const Advertisements = () => {
 
     };
 
+    useEffect(() => {
+        const fetchSectionTitles = async () => {
+            try {
+                const response = await axiosInstance.get('/advertisementSectionTitle/view');
+                
+                if (response.status === 200) {
+                    const titles = response.data.data; 
+
+                    const filteredTitle = titles.find(title => title.section === activeTab);
+                    console.log("titles: ",titles);
+                    console.log("filteredTitle: ",filteredTitle);
+
+                    if (filteredTitle) {
+                        setsectionTitle(filteredTitle.title);
+                        setSectionTitleId(filteredTitle._id);
+                    }
+                    else{
+                        setsectionTitle('');
+                        setSectionTitleId('');
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching section titles:', error);
+            } finally {
+            }
+        };
+
+        if (activeTab) {
+            fetchSectionTitles();
+        }
+    }, [activeTab]);
+
+    const EditTitleModal = ({ isOpen, onClose, title, onSave,sectionTitleId }) => {
+        const [inputValue, setInputValue] = useState(title);
+
+        useEffect(() => {
+            setInputValue(title);  // Sync with prop updates
+        }, [title]);
+
+        const handleSave = async () => {
+            if (!inputValue.trim()) {
+                setInputValue(".");
+            }
+            console.log("sectionTitleId: ",sectionTitleId)
+    
+            try {
+                let response;
+                if (sectionTitleId) {
+                    response = await axiosInstance.put(`/advertisementSectionTitle/update/${sectionTitleId}`, {
+                        title: inputValue,
+                        section: activeTab,  
+                    });
+                } else {
+                    response = await axiosInstance.post('/advertisementSectionTitle/create', {
+                        title: inputValue,
+                        section: activeTab,  
+                    });
+                }
+    
+                if (response.status === 200 || response.status === 201) {
+                    onSave(inputValue);
+                    onClose(); 
+                }
+            } catch (error) {
+                console.error('Error saving section title:', error);
+            }
+        };
+    
+        if (!isOpen) return null;
+    
+        return (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-white p-6 rounded-md w-96">
+                    <h2 className="text-lg font-bold mb-4">Edit Title</h2>
+                    <input
+                        type="text"
+                        className="w-full p-2 border rounded-md"
+                        placeholder="Enter Section Title...."
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                    />
+                    <div className="flex justify-end mt-4">
+                        <button 
+                            onClick={onClose} 
+                            className="px-4 py-2 mr-2 bg-gray-300 text-gray-700 font-semibold rounded-md hover:bg-gray-400">
+                            Cancel
+                        </button>
+                        <button 
+                            onClick={handleSave} 
+                            className="px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+    
+
     return (
         <div className="mx-auto bg-[#eff4f8]  pt-16 w-fit">
             <ToastContainer />
@@ -237,26 +353,30 @@ const Advertisements = () => {
 
             
 
-            <div className="m-10 mt-8 ml-0 mr-0 w-auto  md:grid max-md:flex max-md:flex-col max-md:flex-col-reverse md:grid-cols-2 gap-20">
+            <div className="m-10 mt-8 ml-0 pl-3 mr-0 w-auto  md:grid max-md:flex max-md:flex-col max-md:flex-col-reverse md:grid-cols-2 gap-20">
                 <div>
-                    <div className='mb-2'>
-                        <h2 className="text-lg font-bold mb-4">Section Title</h2>
-                        <div className='flex'>
-                            { editTitle ? <input
-                                type="text"
-                                className="w-full p-2 border rounded-md"
-                                placeholder="Enter Title Name..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            /> : <h2 className="text-lg font-bold mb-4">Best Gadgets</h2>
-                            }
-                            <button className="flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600">
+                    <div className='bg-white p-4 mb-2 rounded-md'>
+                        <div className='flex justify-start'>
+                            <h1 className="text-lg font-bold">Section Title</h1>
+                        </div>
+                        <div>
+                            <div className='border m-2 ml-0 bg-orange-100 border-solid p-2  w-fit rounded-md border-orange-600 text-zinc font-semibold' >{sectionTitle}</div>
+                            <button onClick={openModal} className="flex items-center p-2 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600">
                                 <BiPencil className="h-5 w-5 mr-2" />
-                                Edit
+                                Edit Title
                             </button>
                         </div>
+                        
+
+                        <EditTitleModal 
+                            isOpen={editTitle} 
+                            onClose={closeModal} 
+                            title={sectionTitle} 
+                            onSave={saveTitle} 
+                            sectionTitleId={sectionTitleId}
+                        />
                     </div>
-                    <h2 className="text-lg font-semibold mb-4">Saved Ads</h2>
+                    <h1 className="text-lg font-bold">Saved Ads</h1>
                     
                     {savedAdvertisements.length > 0 ? (
                         <ul className="divide-y divide-gray-200">
@@ -309,7 +429,7 @@ const Advertisements = () => {
                                         
                                         <div className="flex space-x-3">
                                             <button className="px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600" onClick={(e) => handleDeleteAdvertisement(publishedAdvertisement._id, e)}>Delete</button>
-                                            <button className="px-3 py-1 rounded-md bg-green-500 text-white hover:bg-green-600">Edit</button>
+                                            {/* <button className="px-3 py-1 rounded-md bg-green-500 text-white hover:bg-green-600">Edit</button> */}
                                         </div>
                                     </li>
                                 ))}
