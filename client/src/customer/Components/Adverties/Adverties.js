@@ -3,9 +3,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Gadgets = ({ advertisements, status }) => {
+const Gadgets = ({section3title, advertisements, status }) => {
   return (
     <div className="container mx-auto px-4 py-6">
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">{section3title}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {advertisements
           .filter((advertisement) => advertisement.section === "Section 3")

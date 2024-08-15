@@ -15,6 +15,7 @@ import { importProducts } from "../controller/importexport.js";
 import paymentRoute from "../routes/payment.route.js";
 import { testingRegisterUser } from "../controller/testing.controller.js";
 import Test from "../routes/test.js";
+import sectioTitleRouter from '../routes/advertisementSectionTitle.routes.js'
 const allRouter = express.Router();
 
 allRouter.use("/admin", adminRouter);
@@ -32,5 +33,6 @@ allRouter.use("/delivery", deliveryRoute);
 allRouter.use("/payment", paymentRoute);
 allRouter.use('/import',importProducts);
 allRouter.use('/test',Test);
+allRouter.use('/advertisementSectionTitle',sectioTitleRouter);
 
 export default allRouter;
