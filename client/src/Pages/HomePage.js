@@ -140,11 +140,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdvertisements } from "../Redux/Advertisements/advertisementSlice.js";
 import { Link } from "react-router-dom";
 import AdvertisementFinal from "../customer/Components/Adverties/AdvertismentFinal.js";
+import axiosInstance from "../axiosConfig.js";
 
 
 function HomePage() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 630);
   const [viewport, setViewport] = useState(window.innerWidth < 620);
+  const [section0title,setSection0Title] = useState('');
+  const [section1title,setSection1Title] = useState('');
+  const [section2title,setSection2Title] = useState('');
+  const [section3title,setSection3Title] = useState('');
+  const [section4title,setSection4Title] = useState('');
 
   useEffect(() => {
     const handleResize = () => {
@@ -211,6 +217,42 @@ function HomePage() {
       console.log("PUBLISHED ADVERTISEMENTS first element product brand: ", advertisements[0]);
     }
   }, [advertisements, adsstatus]);
+
+  useEffect(() => {
+    const fetchSectionTitles = async () => {
+        try {
+            const response = await axiosInstance.get('/advertisementSectionTitle/view');
+            
+            if (response.status === 200) {
+                const titles = response.data.data; 
+
+                const Section0Title = titles.find(title => title.section === 'Section 0');
+                const Section1Title = titles.find(title => title.section === 'Section 1');
+                const Section2Title = titles.find(title => title.section === 'Section 2');
+                const Section3Title = titles.find(title => title.section === 'Section 3');
+                const Section4Title = titles.find(title => title.section === 'Section 4');
+
+                console.log("titles: ",titles);
+                console.log("Section0Title: ",Section0Title);
+                console.log("Section1Title: ",Section1Title);
+                console.log("Section2Title: ",Section2Title);
+                console.log("Section3Title: ",Section3Title);
+                console.log("Section4Title: ",Section4Title);
+
+                Section0Title && setSection0Title(Section0Title.title);
+                Section1Title && setSection1Title(Section1Title.title); 
+                Section2Title && setSection2Title(Section2Title.title); 
+                Section3Title && setSection3Title(Section3Title.title); 
+                Section4Title && setSection4Title(Section4Title.title); 
+                
+            }
+        } catch (error) {
+            console.error('Error fetching section titles:', error);
+        } finally {
+        }
+    };
+    fetchSectionTitles();
+}, []);
 
 
 
@@ -294,14 +336,15 @@ function HomePage() {
         <TrendingProducts />
       </div>
 
-      <GadgetSection advertisements={advertisements} status={adsstatus} />
+      <GadgetSection section1title={section1title} section2title={section2title} advertisements={advertisements} status={adsstatus} />
 
       <div className="relative bg-white  py-5 mt-5  mb-5">
         <FrozenSnacks />
       </div>
-
-      <ProductComponent advertisements={advertisements} status={adsstatus} />
-      <HomePageAdvertisement advertisements={advertisements} status={adsstatus} />
+      
+      
+      <ProductComponent section3title={section3title} advertisements={advertisements} status={adsstatus} />
+      <HomePageAdvertisement section4title={section4title} advertisements={advertisements} status={adsstatus} />
       <AdvertisementFinal/>
       <Maylike />
       <PopularBrand />

@@ -3,10 +3,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const OtherComponent = ({ advertisements, status }) => {
+const OtherComponent = ({section2title, advertisements, status }) => {
   return (
     <div className="p-8 bg-white rounded-md">
-      <h2 className="text-2xl font-bold text-center mb-6">Best Food and Beverages</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">{section2title}</h2>
       <div className="relative">
         <div className="flex space-x-4 overflow-x-auto py-2">
           {advertisements
