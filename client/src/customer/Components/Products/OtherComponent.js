@@ -17,7 +17,7 @@ const OtherComponent = ({section2title, advertisements, status }) => {
                   <img
                     src={advertisement.imageUrl}
                     alt={advertisement.title}
-                    className="w-full h-25 sm:h-48 transform hover:scale-105 transition duration-300 object-cover"
+                    className="w-full h-25 sm:h-48 transform hover:scale-105 transition duration-300 object-contain"
                   />
                   <div className="p-4">
                     <h3 className="text-sm font-semibold sm:text-lg">{advertisement.title}</h3>

@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
   return (
     <div key={product._id} className={`p-2 sm:p-4 rounded-lg bg-gray-100 hover:bg-orange-100 shadow-lg transition ease-in`}>
       <Link to={`/product/${product._id}`}>
-        <img src={product.imageUrl} alt={product.title} className={imageClasses} />
+        <img  src={product.imageUrl} alt={product.title} className={imageClasses} />
         <h3 className="text-sm sm:text-lg font-semibold">{truncateText(product.title, 2)}</h3>
       </Link>
       <div className="text-base sm:text-xl font-bold text-green-600">₹{product.discountedPrice}</div>
