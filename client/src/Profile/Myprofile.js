@@ -13,14 +13,14 @@ import AllNotifications from './components/Wishlist/Notification';
 import MyWishlist from './components/Wishlist/WishList';
 import './Myprofile.css';
 import { useDispatch, useSelector } from 'react-redux';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { fetchUserById, signoutUser, updateUser } from '../Redux/User/userSlice';
 import MyOrders from './components/Orders/MyOrders.js';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  
+
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -50,10 +50,10 @@ const Sidebar = ({ isOpen, onClose }) => {
   };
 
   return (
-    <aside className={`fixed top-0 left-0  bg-white  shadow-md p-4 transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:relative lg:w-1/5 z-30`}>
+    <aside className={`fixed top-0 left-0 h-full bg-white shadow-md p-4 transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:relative lg:w-1/5 z-30`}>
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 lg:hidden text-xl focus:outline-none"
+        className="absolute top-4 right-4 text-xl focus:outline-none"
         aria-label="Close sidebar"
       >
         ✖️
@@ -162,60 +162,48 @@ const Sidebar = ({ isOpen, onClose }) => {
 const MyProfile = () => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
   useEffect(() => {
-    // Fetch user data if not already fetched
-    if (!currentUser) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        try {
-          const decodedToken = jwtDecode(token);
-          const userId = decodedToken.id;
-          if (userId) {
-            dispatch(fetchUserById(userId));
-          }
-        } catch (error) {
-          console.error('Token decoding failed:', error);
-        }
-      }
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      dispatch(fetchUserById(userId));
     }
-  }, [dispatch, currentUser]);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+  }, [dispatch]);
 
   return (
-    <section>
-      <Navbar />
-      <div className="min-h-screen flex flex-col lg:flex-row bg-[#eaedf2]">
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <main className="flex-1 p-6">
+    <div>
+      <Navbar toggleSidebar={toggleSidebar} />
+      <div className="flex h-screen">
+        <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+        <main className="flex-grow p-4">
           <button
-            className="lg:hidden fixed top-4 left-4 bg-blue-500 text-white p-2 rounded-md"
+            className="lg:hidden p-2 text-xl focus:outline-none"
             onClick={toggleSidebar}
+            aria-label="Toggle sidebar"
           >
             ☰
           </button>
           <Routes>
-            <Route path="my-orders" element={<MyOrders/>} />
-            <Route path="profile-information" element={<ProfileInformation />} />
-            <Route path="manage-addresses" element={<ManageAddresses />} />
-            <Route path="pan-card-information" element={<PanCardInformation />} />
-            <Route path="gift-cards" element={<GiftCards />} />
-            <Route path="saved-upi" element={<SavedUPI />} />
-            <Route path="saved-cards" element={<SavedCards />} />
-            <Route path="my-coupons" element={<MyCoupons />} />
-            <Route path="my-reviews-ratings" element={<MyReviewsRatings />} />
-            <Route path="all-notifications" element={<AllNotifications />} />
-            <Route path="my-wishlist" element={<MyWishlist />} />
-            <Route path="track-order" element={<div>Track Order</div>} />
-            <Route path="help-center" element={<div>Help Center</div>} />
+            <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/profile-information" element={<ProfileInformation />} />
+            <Route path="/manage-addresses" element={<ManageAddresses />} />
+            <Route path="/pan-card-information" element={<PanCardInformation />} />
+            <Route path="/gift-cards" element={<GiftCards />} />
+            <Route path="/saved-upi" element={<SavedUPI />} />
+            <Route path="/saved-cards" element={<SavedCards />} />
+            <Route path="/my-coupons" element={<MyCoupons />} />
+            <Route path="/my-reviews-ratings" element={<MyReviewsRatings />} />
+            <Route path="/all-notifications" element={<AllNotifications />} />
+            <Route path="/my-wishlist" element={<MyWishlist />} />
           </Routes>
         </main>
       </div>
-    </section>
+    </div>
   );
 };
 
