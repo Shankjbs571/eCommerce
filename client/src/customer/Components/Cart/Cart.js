@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import MobNavBar from '../Navbar/MobileNavbar';
@@ -9,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { fetchCart, removeFromCart, clearCart, updateCartQuantity, addQuantity } from '../../../Redux/Cart/cartSlice';
 import { fetchCoupons } from '../../../Redux/Coupons/couponSlice';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import logo from "../../../logo.png";
 
 
 const CartItem = ({ unik, actualPrice, imageSrc, productName, price, savings, qty, decreaseQuantity, increaseQuantity, removeItem, prodid }) => {
@@ -43,14 +41,13 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const [priceSummary, setPriceSummary] = useState('')
+  const [priceSummary, setPriceSummary] = useState({ totalDiscountedPrice: 0, discount: 0, totalActualPrice: 0 });
   const { items, status, fetchCartError } = useSelector((state) => state.cart);
-  const [viewport, setViewport] = useState(false);
-
-  // COUPONS FETCHING
+  const [viewport, setViewport] = useState(window.innerWidth < 620);
   const { coupons, status: couponsstatus } = useSelector((state) => state.coupons);
   const [showCouponOverlay, setShowCouponOverlay] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
+
   useEffect(() => {
     dispatch(fetchCoupons());
   }, [dispatch]);
@@ -73,6 +70,26 @@ const Cart = () => {
       setPriceSummary({ totalDiscountedPrice, discount, totalActualPrice });
     }
   }, [items]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewport(window.innerWidth < 620);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      const resultAction = await dispatch(fetchCart());
+      if (fetchCart.rejected.match(resultAction) && resultAction.payload && resultAction.payload.isUnauthorized) {
+        navigate('/login');
+      }
+    };
+    fetchCartItems();
+  }, [dispatch, navigate]);
+
   const applyCoupon = () => {
     if (selectedCoupon) {
       console.log('Applying coupon:', selectedCoupon);
@@ -80,35 +97,12 @@ const Cart = () => {
       setShowCouponOverlay(false);
     }
   };
-  // END COUPONS FETCHING
-
-
 
   const handleAddToCart = async () => {
-    const resultAction = dispatch(fetchCart());
+    const resultAction = await dispatch(fetchCart());
     if (fetchCart.rejected.match(resultAction) && resultAction.payload && resultAction.payload.isUnauthorized) {
       navigate('/login');
     }
-  };
-
-  useEffect(() => {
-    handleAddToCart();
-  }, [dispatch]);
-
-  const categories = useSelector((state) => state.categories.categories);
-  const handleSide = (path) => {
-    navigate(path);
-  };
-
-
-  // const handleSearch = (e) => {
-  //   e.preventDefault();
-  //   if (search.trim() === "") return; // Check if the search field is empty
-  //   navigate(`/search/${search}`);
-  // };
-
-  const checkOut = () => {
-    navigate('/checkout');
   };
 
   const increaseQuantity = (id) => {
@@ -127,27 +121,17 @@ const Cart = () => {
     dispatch(removeFromCart(id));
   };
 
+  const checkOut = () => {
+    navigate('/checkout');
+  };
+
   const clearCartItems = () => {
     dispatch(clearCart());
     setPriceSummary({ totalDiscountedPrice: 0, discount: 0, totalActualPrice: 0 });
-
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setViewport(window.innerWidth < 620);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
- 
-
   if (!items || items.length === 0) {
-    setPriceSummary({ totalDiscountedPrice: 0, discount: 0, totalActualPrice: 0 });
-
-    return <div>Your cart is empty.</div>;
+    return <div>Loading....</div>;
   }
 
   return (
@@ -156,11 +140,11 @@ const Cart = () => {
       <div>
        <Navbar/>
       </div>
-      <div className="container mx-auto p-4 mt-40">
+      <div className="container mx-auto p-4 mt-4">
         <div className="flex flex-col lg:flex-row">
           <div className="w-full lg:w-3/4">
-            <h3 className="text-lg mb-4">
-              <span className="text-green-500 font-semibold">Cart /</span> <span>Checkout</span> / Confirmation ({items[0].length} items)</h3>
+            <h3 className="text-xs mb-4">
+              <span className="text-green-500 font-semibold text-xm">Cart /</span> <span>Checkout</span> / Confirmation ({items[0].length} items)</h3>
             <div className="overflow-x-auto rounded-md  shadow-sm">
               <table className="min-w-full ">
                 <thead className="bg-Orange-500">
@@ -230,9 +214,9 @@ const Cart = () => {
                 </button>
 
                 {showCouponOverlay && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                  <div className="fixed inset-0 flex z-50  items-center justify-center bg-gray-800 bg-opacity-60">
                     {/* <div className="bg-white p-4 rounded-md shadow-lg"> */}
-                    <div className="w-1/2 pr-4">
+                    <div className="w-1/2 pr-4 h-[500px] overflow-auto">
                       <div className="bg-green-100 p-8 rounded-lg shadow-md">
                         <h2 className="text-lg font-semibold mb-2">Select a Coupon</h2>
                         {couponsstatus === "succeeded" && coupons.map((coupon) => (
@@ -280,8 +264,13 @@ const Cart = () => {
                   </div>
                 )}
               </div>
-              <button className="w-full bg-orange-600 text-white py-2 rounded-md" onClick={checkOut}>PROCEED TO CHECKOUT</button>
-            </div>
+              <button 
+              onClick={checkOut} 
+              disabled={items[0].length === 0}
+              className={`w-full bg-orange-600 text-white py-2 rounded-md hover:bg-orange-700 transition-colors duration-300 ${items[0].length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              Proceed to Checkout
+            </button>
+             </div>
           </div>
 
         </div>

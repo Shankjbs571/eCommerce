@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { fetchOrders } from '../../../Redux/Order/orderSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import order from './noorder.webp';
 
 const MyOrders = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,10 @@ const MyOrders = () => {
   }
 
   if (status === 'succeeded' && (!orders || orders.length === 0)) {
-    return <div>No orders found.</div>;
+    return <div className='flex flex-col justify-center items-center min-h-screen'>
+    <img src={order} alt="no order" className='w-[600px]'/>
+    <p className='text-5xl text-gray-400 font-bold text-center p-4'>No Order Found!</p>
+  </div>
   }
 
   const handleToggle = (id) => {

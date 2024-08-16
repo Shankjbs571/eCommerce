@@ -8,6 +8,7 @@ import GiftCards from './components/Wishlist/Giftcards';
 import SavedUPI from './components/Payment/savedUPI';
 import SavedCards from './components/Payment/SavedCards';
 import MyCoupons from './components/Wishlist/Coupons';
+import { MdOutlineDoubleArrow } from "react-icons/md";
 import MyReviewsRatings from './components/Wishlist/myReviews';
 import AllNotifications from './components/Wishlist/Notification';
 import MyWishlist from './components/Wishlist/WishList';
@@ -182,11 +183,11 @@ const MyProfile = () => {
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
         <main className="flex-grow p-4">
           <button
-            className="lg:hidden p-2 text-xl focus:outline-none"
+            className="lg:hidden z-50 fixed top-4 left-4 bg-blue-500 text-white p-2 rounded-md "
             onClick={toggleSidebar}
             aria-label="Toggle sidebar"
           >
-            ☰
+            <MdOutlineDoubleArrow className='text-white'/>
           </button>
           <Routes>
             <Route path="/my-orders" element={<MyOrders />} />
