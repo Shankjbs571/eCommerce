@@ -178,12 +178,12 @@ const MyProfile = () => {
 
   return (
     <div>
-      <Navbar toggleSidebar={toggleSidebar} />
+      <Navbar className="mt-50" toggleSidebar={toggleSidebar} />
       <div className="flex h-screen">
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
         <main className="flex-grow p-4">
           <button
-            className="lg:hidden z-50 fixed top-4 left-4 bg-blue-500 text-white p-2 rounded-md "
+            className="lg:hidden z-50 fixed mt-50 left-4 bg-blue-500 text-white p-2 rounded-md "
             onClick={toggleSidebar}
             aria-label="Toggle sidebar"
           >
